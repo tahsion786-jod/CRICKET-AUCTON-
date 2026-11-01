@@ -43,20 +43,48 @@ input:focus,select:focus,textarea:focus{outline:2px solid var(--ac)}
 textarea{width:100%;padding:10px;border-radius:12px;border:1px solid var(--ln);background:#071d15;color:var(--tx);font-size:12px;margin-top:6px}
 .s.on{animation:fi .25s}@keyframes fi{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 .pill{font-weight:600}.c b{letter-spacing:.2px}
+body{background:radial-gradient(90% 40% at 15% 0,#2b8a6355 0,transparent 60%),radial-gradient(80% 40% at 90% 0,#ffb40035 0,transparent 55%),linear-gradient(#08241b,#030d09) fixed}
+.hero .ball{display:inline-block;animation:bob 2.4s ease-in-out infinite;filter:drop-shadow(0 6px 10px #000a)}@keyframes bob{50%{transform:translateY(-8px) rotate(20deg)}}
+.chips span{display:inline-block;background:#0008;border:1px solid var(--ln);border-radius:20px;padding:3px 10px;margin:8px 3px 0;font-size:12px}
+.stage{position:relative;text-align:center;border-radius:22px;padding:12px 10px 16px;margin:10px 0;background:radial-gradient(70% 60% at 50% 0,#ffe08a2e,transparent 70%),linear-gradient(160deg,#124434,#071d15);border:1px solid var(--ln);overflow:hidden;box-shadow:0 10px 30px #000a}
+.stage.sold{background:radial-gradient(70% 60% at 50% 0,#6dffa133,transparent 70%),linear-gradient(160deg,#1c6b3a,#08301c);border-color:var(--gn)}
+.stage.uns{background:linear-gradient(160deg,#5a1b25,#220a0f);border-color:var(--rd)}
+.prog{height:5px;background:#0008;border-radius:5px;overflow:hidden}.prog i{display:block;height:100%;background:linear-gradient(90deg,var(--gn),var(--ac))}
+.ring{position:relative;width:120px;height:120px;margin:8px auto 4px}.ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.rb{fill:none;stroke:#0008;stroke-width:8}.rf{fill:none;stroke:var(--ac);stroke-width:8;stroke-linecap:round;stroke-dasharray:276.5;stroke-dashoffset:0;transition:stroke-dashoffset .25s linear,stroke .3s}
+.rt{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:34px;font-weight:900}
+.lbl{font-size:11px;letter-spacing:3px;color:var(--mu)}
+.price{font-size:56px;font-weight:900;color:var(--ac);line-height:1.05;text-shadow:0 0 26px #ffb40088;animation:pulse .3s}.price small{font-size:20px}
+@keyframes pulse{from{transform:scale(1.18)}to{transform:scale(1)}}
+.lead{font-size:16px;margin-top:4px;font-weight:700}
+.stamp{position:absolute;top:34%;left:50%;transform:translate(-50%,-50%) rotate(-12deg);font-size:46px;font-weight:900;color:#fff;border:6px solid #fff;padding:2px 18px;border-radius:12px;background:#000a;letter-spacing:2px;animation:pop .5s cubic-bezier(.2,1.6,.4,1)}.stamp.un{color:#ff8f9c;border-color:#ff8f9c}
+@keyframes pop{from{transform:translate(-50%,-50%) rotate(-12deg) scale(3);opacity:0}to{transform:translate(-50%,-50%) rotate(-12deg) scale(1);opacity:1}}
+.cf{position:fixed;top:-14px;width:9px;height:14px;z-index:98;animation:fall linear forwards}@keyframes fall{to{transform:translateY(108vh) rotate(720deg)}}
+#a_bid{position:fixed;left:0;right:0;bottom:0;z-index:7;max-width:480px;margin:auto;border-radius:20px 20px 0 0;background:linear-gradient(#0f3329f5,#06150f);border:1px solid var(--ln);padding:10px 12px 14px;box-shadow:0 -10px 28px #000b}
+.mainbid{display:block;width:100%;font-size:20px;padding:15px;margin:0 0 6px;background:linear-gradient(#ffe066,#ffae00);border-radius:14px}#a_bid .row button{padding:10px 4px;margin:2px 0}
+#auction{padding-bottom:210px}
+.strip{display:flex;gap:8px;overflow-x:auto;padding:4px 0}.chip{flex:0 0 auto;min-width:96px;background:#0d2b21;border:1px solid var(--ln);border-radius:14px;padding:6px 8px;text-align:center;font-size:12px}
+.chip.lead{border-color:var(--ac);box-shadow:0 0 14px #ffb40088}.chip.me{background:#14402f}.ce{font-size:24px}.chip b{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:90px}.chip small{display:block;color:var(--mu)}
+.rg{background:linear-gradient(160deg,#4d3c08,#1d1604)!important;border-color:#ffd45c!important;box-shadow:0 0 18px #ffd45c55}
+.rs{background:linear-gradient(160deg,#27463f,#0f2420)!important;border-color:#8fd3c0!important}
+.rb2{background:linear-gradient(160deg,#3d2816,#1a110a)!important;border-color:#b5763a!important}
+.pod{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;align-items:end;margin:14px 0}.pc3{text-align:center;font-size:12px}.pe{font-size:32px}.pc3 b{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.pc3 small{display:block;color:var(--mu)}
+.bar{background:linear-gradient(#ffd45c,#c98a00);border-radius:10px 10px 0 0;display:flex;align-items:center;justify-content:center;font-size:28px;color:#000;margin-top:4px}
+#vb button{padding:7px 10px;font-size:13px}
 </style></head><body>
 <div id="toast" style="display:none;position:fixed;bottom:20px;left:12px;right:12px;background:#d7263d;color:#fff;padding:12px;border-radius:10px;z-index:99;text-align:center;font-weight:700"></div>
-<div id="vb" style="display:none;position:fixed;right:10px;bottom:10px;z-index:8"><button id="mic" onclick="mic()">🎙 Join voice</button> <button class="g" id="mt" onclick="mute()" style="display:none">Mute</button></div>
+<div id="vb" style="display:none;position:fixed;right:8px;top:30px;z-index:8"><button class="g" id="sn" onclick="snd()">🔊</button> <button id="mic" onclick="mic()">🎙 Join voice</button> <button class="g" id="mt" onclick="mute()" style="display:none">Mute</button></div>
 <div id="fb">⏳ Connecting to Firebase…</div>
 
 <div class="s on" id="home">
-<div class="hero"><div class="ball">🏏</div><h1>Cricket Auction</h1><div style="color:var(--ac);font-weight:800;letter-spacing:.5px">made by TAHSEEN</div><div class="mu">Bid with friends · 2 to 6 teams · <b id="pc">0</b> players</div></div>
+<div class="hero"><div class="ball">🏏</div><h1>Cricket Auction</h1><div style="color:var(--ac);font-weight:800;letter-spacing:.5px">made by TAHSEEN</div><div class="mu">Bid with friends · 2 to 6 teams · <b id="pc">0</b> players</div><div class="chips"><span>🔨 Live bidding</span><span>🎙 Voice chat</span><span>👑 Legends</span><span>🤖 AI compare</span></div></div>
 <label>Your name</label><input id="pname" placeholder="Enter your name" onchange="localStorage.pname=this.value">
 <div class="grid">
 <button class="t" onclick="needName()&&show('create')"><i>👑</i>Create room</button>
 <button class="t" onclick="needName()&&show('join')"><i>👥</i>Join room</button>
 <button class="t g" onclick="show('search');srch()"><i>🔍</i>Players</button>
 <button class="t g" onclick="hist()"><i>📈</i>History</button>
-<button class="t g" onclick="show('pm');pm()"><i>🛠</i>Manage players</button>
+<button class="t g" onclick="adminOpen()"><i>🔐</i>Admin</button>
 <button class="t g" onclick="show('lb');lb()"><i>🥇</i>Leaderboard</button>
 <button class="t g" id="rj" onclick="rejoin()" style="display:none"><i>🔁</i>Rejoin room</button></div>
 <h2>What's inside</h2><div class="c fl">
@@ -65,7 +93,7 @@ textarea{width:100%;padding:10px;border-radius:12px;border:1px solid var(--ln);b
 <div>⏱ Auction timer with progress bar</div><div>🔥 Bid war alert and 🔔 sold sound</div><div>🔁 Unsold round</div>
 <div>👕 Own team names, purse and squads</div><div>📊 Team balance meter (batter, bowler, all-rounder, keeper)</div>
 <div>💬 Live chat with emoji</div><div>📱 Rejoin if the app closes</div><div>🏆 Results, ranking and badges</div>
-<div>🃏 Player cards: OVR, Test/ODI/T20 stats, auto photos, legends</div><div>🛠 Add, edit, delete players and photos yourself</div><div>📈 History of games, wins and losses (saved online)</div><div>✅ Squad rule: buy exactly your squad size, or you are eliminated</div><div>💱 Trade offers between teams during the auction</div><div>❓ Mystery players (hidden until first bid)</div><div>©️ Captain and ⚖️ squad comparison (highest total overall wins)</div><div>🎙 Live voice chat in the room</div><div>🧾 Sold board · 📋 Slots tracker · 📤 Share result</div><div>⏭ Pass button · 🕘 Bid history · 📅 Session names with winners · 🤖 AI comparison page</div><div>🥇 Leaderboard of all players</div></div>
+<div>🃏 Player cards: OVR, Test/ODI/T20 stats, auto photos, legends</div><div>🔐 Admin panel (PIN): edit or delete players, sessions and history</div><div>🎉 Confetti and SOLD stamp · 🏅 Podium · 🦁 Team badges · ⚠️ Outbid alert · ⏩ Host auto-next · 🔊 Sound toggle</div><div>⭐ Wishlist alerts · ⏫ Quick bids · ⏱ Host +10s · ⚠️ Last 5 second warning beeps · 🎧 Mic noise filter</div><div>📈 History of games, wins and losses (saved online)</div><div>✅ Squad rule: buy exactly your squad size, or you are eliminated</div><div>💱 Trade offers between teams during the auction</div><div>❓ Mystery players (hidden until first bid)</div><div>©️ Captain and ⚖️ squad comparison (highest total overall wins)</div><div>🎙 Live voice chat in the room</div><div>🧾 Sold board · 📋 Slots tracker · 📤 Share result</div><div>⏭ Pass button · 🕘 Bid history · 📅 Session names with winners · 🤖 AI comparison page</div><div>🥇 Leaderboard of all players</div></div>
 <h2>📜 Rules</h2><div class="c fl">
 <div>1. Host makes a room, friends join with the code (2 to 6 teams).</div>
 <div>2. Only the host presses Next, Sold, Unsold, Pause and Undo. Host can bid too.</div>
@@ -76,7 +104,7 @@ textarea{width:100%;padding:10px;border-radius:12px;border:1px solid var(--ln);b
 <div>7. Mystery players stay hidden until the first bid.</div>
 <div>8. Winner = highest total OVR of the whole squad (+10 for captain). 90+ OVR is rare, 👑 legends are the best.</div>
 <div>9. Pass button: tap it if you are not interested. After the auction, open the AI page to compare squads.</div></div>
-<h2>Coming soon</h2><div class="c fl"><div>🎴 RTM card</div><div>👀 Spectator mode</div><div>🏟 Playoffs and final</div><div>🧢 Manual Playing XI and batting order</div><div>🎯 Wishlist alerts</div><div>📈 Bid history graph</div><div>📊 Season stats</div></div>
+<h2>Coming soon</h2><div class="c fl"><div>🎴 RTM card</div><div>👀 Spectator mode</div><div>🏟 Playoffs and final</div><div>🧢 Manual Playing XI and batting order</div><div>📈 Bid history graph</div><div>📊 Season stats</div></div>
 </div>
 
 <div class="s" id="create"><h2>Room settings</h2>
@@ -95,7 +123,7 @@ textarea{width:100%;padding:10px;border-radius:12px;border:1px solid var(--ln);b
 
 <div class="s" id="lobby"><h2>Lobby</h2>
 <div class="c" style="text-align:center"><div class="mu">Share this code with friends</div><div class="big" id="l_code"></div><div class="mu" id="l_cfg"></div></div>
-<label>Your team name</label><input id="l_team" onchange="cref.child('members/'+me+'/team').set(this.value)">
+<label>Your team name</label><input id="l_team" onchange="cref.child('members/'+me+'/team').set(this.value)"><label>Team badge</label><select id="l_em" onchange="cref.child('members/'+me+'/em').set(this.value)"><option>🏏</option><option>🦁</option><option>🐯</option><option>🦅</option><option>🐺</option><option>🐉</option><option>🦈</option><option>🔥</option><option>⚡</option><option>👑</option><option>🚀</option><option>🐘</option></select>
 <div id="l_list"></div>
 <button class="b" id="l_start" onclick="start()">Start auction</button>
 <div class="mu" id="l_wait">Waiting for host to start…</div>
@@ -103,13 +131,15 @@ textarea{width:100%;padding:10px;border-radius:12px;border:1px solid var(--ln);b
 
 <div class="s" id="auction"><h2>Live auction</h2>
 <div id="a_top"></div><div class="mu" id="a_msg" style="text-align:center;min-height:18px"></div><div class="mu" id="a_pass" style="text-align:center"></div>
+<div id="a_strip" class="strip"></div>
 <div id="a_need" class="c mu"></div>
-<div id="a_bid" class="c"><button class="b" onclick="bid()" id="b1"></button><button class="b g" onclick="pass()">⏭ Pass on this player</button>
-<div class="row"><input id="cb" type="number" step="0.25" placeholder="Custom bid (Cr)"><button onclick="bid(1)">Bid</button></div></div>
+<div id="a_bid"><button class="mainbid" onclick="bid()" id="b1"></button>
+<div class="row"><button class="g" onclick="bid(2)">⏫ +2</button><button class="g" onclick="bid(5)">🚀 +5</button><button class="g" onclick="pass()">⏭ Pass</button></div>
+<div class="row"><input id="cb" type="number" step="0.25" placeholder="Custom bid (Cr)"><button onclick="bid('c')">Bid</button></div></div>
 <div id="a_host" class="c"><div class="mu">Host controls</div>
 <div class="row"><button id="hs" onclick="sold()">🔨 Sold</button><button id="hu" class="r" onclick="unsold()">Unsold</button></div>
-<button class="b g" id="hn" onclick="nxt()">Next player ▶</button>
-<div class="row"><button class="g" id="hp" onclick="pause()">⏸ Pause</button><button class="g" id="hz" onclick="undo()">↩️ Undo sale</button></div>
+<button class="b g" id="hn" onclick="nxt()">Next player ▶</button><button class="b g" onclick="auto=!auto;this.textContent=auto?'⏩ Auto-next: ON':'⏩ Auto-next: OFF'">⏩ Auto-next: OFF</button>
+<div class="row"><button class="g" id="hp" onclick="pause()">⏸ Pause</button><button class="g" id="hz" onclick="undo()">↩️ Undo sale</button><button class="g" onclick="cref.child('cur/end').transaction(e=>e?e+10000:e)">⏱ +10s</button></div>
 <button class="b g" onclick="cref.update({status:'done'})">End auction</button></div>
 <h2>Teams</h2><div id="a_teams"></div>
 <h2>🧾 Sold board</h2><div id="a_sold"></div>
@@ -143,6 +173,16 @@ textarea{width:100%;padding:10px;border-radius:12px;border:1px solid var(--ln);b
 <button class="b g" onclick="cp($('ai_t').value+'\n\n'+AIP)">📋 Copy squads + prompt together</button>
 <textarea id="ai_t" rows="10" readonly></textarea>
 <button class="b g" onclick="back()">← Back</button></div>
+
+<div class="s" id="alog"><h2>🔐 Admin</h2><div class="c"><div id="al_t" class="mu"></div><input id="al_p" type="password" placeholder="Admin PIN"><button class="b" id="al_b" onclick="alogin()">Unlock</button></div><button class="b g" onclick="back()">← Back</button></div>
+
+<div class="s" id="adm"><h2>🔐 Admin panel</h2>
+<button class="b" onclick="show('pm');pm()">🛠 Manage players (add, edit, delete)</button>
+<h2>📅 Sessions</h2><div id="ad_s"></div><h2>📈 History records</h2><div id="ad_h"></div>
+<h2>⚠️ Danger zone</h2><div class="mu">Tap a delete button twice to confirm.</div>
+<button class="b r" onclick="adel('hist')">Delete ALL history</button><button class="b r" onclick="adel('sessions')">Delete ALL sessions</button>
+<h2>Change PIN</h2><input id="ad_n" type="password" placeholder="New PIN (4+ characters)"><button class="b g" onclick="chpin()">Change PIN</button>
+<button class="b g" onclick="adm=false;leave()">🔒 Lock and exit</button></div>
 
 <div class="s" id="lb"><h2>🥇 Leaderboard</h2><div id="lb_l"></div><button class="b g" onclick="back()">← Back</button></div>
 
@@ -422,17 +462,22 @@ st==="lobby"?rLobby():st==="live"?(rAuc(),trd()):rRes()}
 function rLobby(){const ms=Object.entries(R.members),h=R.host===me,c=R.cfg;
 $("l_code").textContent=code;
 $("l_cfg").textContent=`${c.sn?c.sn+" · ":""}Purse ${c.purse} Cr · ${c.pool} players · ${c.teams} teams max · squad ${c.squad} · ${c.timer}s · base ${c.base} Cr · step ${c.inc} Cr`;
-if(document.activeElement!==$("l_team"))$("l_team").value=R.members[me].team;
-$("l_list").innerHTML=ms.map(([u,m])=>`<div class="c">${u===R.host?"👑 ":""}<b>${esc(m.team)}</b> <span class="pill">${esc(m.name)}</span>${h&&u!==me?` <button class="g" onclick="cref.child('host').set('${u}')">Make host</button>`:""}</div>`).join("")+`<div class="mu">${ms.length}/${c.teams} teams joined (need at least 2)</div>`;
+if(document.activeElement!==$("l_team"))$("l_team").value=R.members[me].team;if(document.activeElement!==$("l_em"))$("l_em").value=R.members[me].em||"🏏";
+$("l_list").innerHTML=ms.map(([u,m])=>`<div class="c">${u===R.host?"👑 ":""}<b>${tn(m)}</b> <span class="pill">${esc(m.name)}</span>${h&&u!==me?` <button class="g" onclick="cref.child('host').set('${u}')">Make host</button>`:""}</div>`).join("")+`<div class="mu">${ms.length}/${c.teams} teams joined (need at least 2)</div>`;
 $("l_start").style.display=h?"block":"none";$("l_start").disabled=ms.length<2;$("l_wait").style.display=h?"none":"block"}
 
 function rAuc(){const c=R.cur,h=R.host===me,cf=R.cfg,m=R.members[me],open=c&&c.state==="bidding";
-const k=c?c.i+"|"+c.bid+"|"+c.state:"";if(k!==lk){lk=k;if(c&&c.state==="sold")tone([660,880,1100]);else if(c&&c.state==="unsold")tone([220,180]);else if(c&&c.by)tone([520])}
+const k=c?c.i+"|"+c.bid+"|"+c.state:"";if(k!==lk){lk=k;if(c&&c.state==="sold"){tone([660,880,1100]);confetti()}else if(c&&c.state==="unsold")tone([220,180]);else if(c&&c.by)tone([520])}if(c&&c.state==="bidding"&&!c.by&&!c.my&&lw!==c.i){lw=c.i;if(WLH(R.pl[c.i].n))tone([990,1320,990])}
+if(c&&c.state==="bidding"&&c.by&&lbBy===me&&c.by!==me){if(navigator.vibrate)navigator.vibrate([200,80,200]);tone([300,250]);msg("⚠️ You were outbid!")}lbBy=c&&c.state==="bidding"?c.by||null:null;
+if(h&&auto&&c&&c.state!=="bidding"&&ax!==c.i+"|"+c.state){ax=c.i+"|"+c.state;setTimeout(()=>{if(R&&R.cur&&R.cur.i===c.i&&R.cur.state!=="bidding"&&R.host===me)nxt()},4500)}
 let t=`<div class="c">Waiting for host to bring the first player…</div>`;
 if(c){const p=R.pl[c.i],hide=c.my&&!c.by&&c.state==="bidding",by=c.by&&R.members[c.by];
 t=`${card(p,hide)}
-<div class="c ${c.state==="sold"?"sold":c.state==="unsold"?"uns":""}" style="text-align:center"><div class="big" id="tm"></div><div id="tb"><i></i></div><div class="big" style="color:var(--tx)">${c.bid} Cr</div>
-<div>${c.state==="sold"?"✅ SOLD to "+esc(by.team):c.state==="unsold"?"❌ Unsold":by?(c.nb>=4?"🔥 BID WAR! ":"")+"Highest bid: "+esc(by.team):"No bids yet · base price"}</div>${bh(c)}</div>`}
+<div class="stage ${c.state==="sold"?"sold":c.state==="unsold"?"uns":""}"><div class="prog"><i style="width:${R.pos/R.order.length*100}%"></i></div><div class="mu">Player ${R.pos} of ${R.order.length}${R.rd?" · Unsold round":""}</div>
+<div class="ring"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="44" class="rb"/><circle cx="50" cy="50" r="44" class="rf" id="rf"/></svg><div class="rt" id="tm"></div></div>
+<div class="lbl">CURRENT BID</div><div class="price">${c.bid}<small> Cr</small></div>
+<div class="lead">${c.state==="sold"?"✅ Sold to "+tn(by):c.state==="unsold"?"❌ Unsold":by?(c.nb>=4?"🔥 BID WAR! ":"")+"Leading: "+tn(by):"No bids yet · base price"}</div>${bh(c)}
+${c.state==="sold"?'<div class="stamp">SOLD!</div>':c.state==="unsold"?'<div class="stamp un">UNSOLD</div>':""}</div>`}
 $("a_top").innerHTML=t;
 $("a_bid").style.display=open?"block":"none";
 if(c)$("b1").textContent=`Bid ${c.by?+(c.bid+cf.inc).toFixed(2):c.bid} Cr`;
@@ -440,13 +485,13 @@ $("a_host").style.display=h?"block":"none";
 $("hs").disabled=!(open&&c.by);$("hu").disabled=!open;$("hn").disabled=open;$("hp").disabled=!open;$("hp").textContent=R.paused?"▶ Resume":"⏸ Pause";$("hz").disabled=!(c&&c.state==="sold"&&R.last&&R.last.i===c.i);
 $("hn").textContent=Object.values(R.members).every(x=>(x.squad||[]).length>=cf.squad)?"🏁 All squads full – Finish":R.pos>=R.order.length?(Object.keys(R.uns||{}).length&&!R.rd?"🔁 Unsold round":"Finish auction"):`Next player ▶ (${R.pos}/${R.order.length})`;
 $("a_teams").innerHTML=Object.entries(R.members).map(([u,x])=>{const sq=x.squad||[];
-return`<div class="c">${u===R.host?"👑 ":""}<b>${esc(x.team)}</b>${u===me?" (you)":""}<br><span class="pill">💵 ${x.purse} Cr left</span><span class="pill">${sq.length}/${cf.squad} players</span>${bal(sq)}
+return`<div class="c">${u===R.host?"👑 ":""}<b>${tn(x)}</b>${u===me?" (you)":""}<br><span class="pill">💵 ${x.purse} Cr left</span><span class="pill">${sq.length}/${cf.squad} players</span>${bal(sq)}
 <div class="mu">${sq.map(s=>esc(R.pl[s.p].n)+" "+s.price).join(", ")||"No players yet"}</div></div>`}).join("")}
-setInterval(()=>{const c=R&&R.cur,e=$("tm");if(!e)return;e.textContent=(R&&R.paused)?"⏸ Paused":c&&c.state==="bidding"?"⏱ "+Math.max(0,Math.ceil((c.end-now())/1000))+"s":"";const b=document.querySelector("#tb i");if(b)b.style.width=(c&&c.state==="bidding"&&!R.paused?Math.max(0,Math.min(100,(c.end-now())/(R.cfg.timer*10))):0)+"%"},250);
+setInterval(()=>{const c=R&&R.cur,e=$("tm");if(!e)return;const sl=c&&c.state==="bidding"&&!R.paused?Math.ceil((c.end-now())/1000):99;if(sl<=5&&sl>0&&sl!==wb){wb=sl;tone(sl===1?[1200,1200]:[880])}if(sl>5)wb=0;e.style.color=sl<=5?"var(--rd)":"";e.textContent=(R&&R.paused)?"⏸":c&&c.state==="bidding"?Math.max(0,Math.ceil((c.end-now())/1000)):c&&c.state==="sold"?"🔨":c&&c.state==="unsold"?"✖":"";const f=$("rf");if(f){const q=c&&c.state==="bidding"&&!R.paused?Math.max(0,Math.min(1,(c.end-now())/(R.cfg.timer*1000))):0;f.style.strokeDashoffset=276.5*(1-q);f.style.stroke=sl<=5?"var(--rd)":""}},250);
 
 function msg(t){$("a_msg").textContent=t}
 function bid(custom){const c=R.cur,cf=R.cfg,m=R.members[me];if(!c||c.state!=="bidding")return;if(R.paused)return msg("⏸ Paused by host");
-const a=custom?+$("cb").value:+(c.by?c.bid+cf.inc:c.bid).toFixed(2);
+const a=custom==="c"?+$("cb").value:+((c.by?c.bid:c.bid-cf.inc)+cf.inc*(custom||1)).toFixed(2);
 if(c.by===me)return msg("You are already the highest bidder");
 const mx=+(m.purse-(cf.squad-(m.squad||[]).length-1)*cf.base).toFixed(2);if(!a||a>mx)return msg(a?"Max bid "+mx+" Cr (keep "+cf.base+" Cr for each empty slot)":"Enter a bid");
 if((m.squad||[]).length>=cf.squad)return msg("Your squad is full");if(c.ps&&c.ps[me])return msg("You passed on this player");
@@ -464,7 +509,7 @@ function say(t){t=t||$("ci").value.trim();if(!t)return;cref.child("chat").push({
 function tms(){return Object.entries(R.members).map(([u,m])=>{const sq=(m.squad||[]).map(x=>({...R.pl[x.p],i:x.p,price:x.price,nb:x.nb||0}));
 const cp=m.cap!=null?sq.find(x=>x.i===m.cap):0,sc=sq.reduce((a,b)=>a+b.q,0)+(cp?10:0);return{u,m,sq,cp,sc,el:sq.length<R.cfg.squad,why:sq.length+"/"+R.cfg.squad+" players",sp:R.cfg.purse-m.purse}}).sort((a,b)=>a.el-b.el||b.sc-a.sc)}
 function rRes(){const ms=tms();
-$("r_list").innerHTML=champ(ms)+badges(ms)+cmp(ms)+ms.map((x,i)=>`<div class="c">${x.el?"❌ ":i?i+1+". ":"🏆 "}<b>${esc(x.m.team)}</b> <span class="pill">Overall ${x.sc}</span>${x.el?`<span class="pill">Eliminated: ${x.why}</span>`:""}<br>
+$("r_list").innerHTML=champ(ms)+podium(ms)+badges(ms)+cmp(ms)+ms.map((x,i)=>`<div class="c">${x.el?"❌ ":i?i+1+". ":"🏆 "}<b>${tn(x.m)}</b> <span class="pill">Overall ${x.sc}</span>${x.el?`<span class="pill">Eliminated: ${x.why}</span>`:""}<br>
 <span class="pill">Spent ${x.sp.toFixed(2)} Cr</span><span class="pill">Left ${x.m.purse} Cr</span><span class="pill">${x.sq.length} players</span>
 <div class="mu">${x.sq.map(p=>esc(p.n)+" · OVR "+p.q+" ("+p.r+", "+p.price+" Cr)").join(", ")||"No players"}</div>${x.cp?`<div>©️ Captain: ${esc(x.cp.n)}</div>`:""}${x.u===me?capPick(x):""}</div>`).join("");
 const sk="sd"+code;if(R.host===me&&!localStorage[sk]){localStorage[sk]=1;const nk=n=>(n||"x").toLowerCase().replace(/[^a-z0-9]/g,"")||"x";db.ref("sessions/"+code).set({n:R.cfg.sn||code,d:Date.now(),w:ms[0]&&!ms[0].el?ms[0].m.team+" ("+ms[0].m.name+")":"No winner",m:ms.map(x=>({t:x.m.team,n:x.m.name,s:x.sc,e:x.el?1:0})),k:Object.fromEntries(ms.map(x=>[nk(x.m.name),1]))})}
@@ -472,7 +517,7 @@ const k="done"+code;if(!localStorage[k]){localStorage[k]=1;const h=JSON.parse(lo
 if(i>=0){h.unshift({sn:R.cfg.sn||"",w:ms[0]&&!ms[0].el?ms[0].m.team+" ("+ms[0].m.name+")":"No winner",n:localStorage.pname,c:code,d:new Date().toLocaleDateString(),t:ms[i].m.team,rank:i+1,of:ms.length,sc:ms[i].sc});localStorage.hist=JSON.stringify(h);if(hk())db.ref("hist/"+hk()+"/"+code).set(h[0])}}}
 
 function srch(){const q=$("sq").value.toLowerCase(),r=$("sr").value,L=P.filter(p=>(p.n+" "+p.c).toLowerCase().includes(q)&&(!r||p.r===r));$("sc").textContent=L.length+" of "+P.length+" players";
-$("sl").innerHTML=L.slice(0,60).map(p=>`${card(p)}`).join("")||`<div class="c">No player found</div>`}
+$("sl").innerHTML=L.slice(0,60).map(p=>`${card(p,0,1)}`).join("")||`<div class="c">No player found</div>`}
 const hk=()=>(localStorage.pname||"").toLowerCase().replace(/[^a-z0-9]/g,"");
 async function hist(){let h=JSON.parse(localStorage.hist||"[]");
 try{if(db&&hk()){const v=(await db.ref("hist/"+hk()).once("value")).val();if(v)Object.values(v).forEach(x=>{if(!h.some(y=>y.c===x.c))h.push(x)})}}catch(_){}
@@ -481,7 +526,7 @@ $("h_list").innerHTML=h.map(x=>`<div class="c">${x.sn?"<b>"+esc(x.sn)+"</b><br>"
 
 const CC={IND:"#1e6fd9",AUS:"#d4a800",ENG:"#c8102e",PAK:"#0b7a3b",NZ:"#222",SA:"#13804f",WI:"#7b1e3a",SL:"#1b3a8a",BAN:"#006a4e",AFG:"#2a6ad4",ZIM:"#b32020",IRE:"#169b62"};
 function av(p,big){const i=p.n.split(" ").map(w=>w[0]).slice(0,2).join("").toUpperCase(),u=p.img||PH[p.n];return`<span class="av${big?" big":""}" style="background:${CC[p.c]||"#555"}"${u?"":` data-n="${esc(p.n)}"`}>${i}${u?`<img src="${esc(u)}" onerror="this.remove()">`:""}</span>`}
-function tone(a){try{const ac=window._ac||(window._ac=new(window.AudioContext||window.webkitAudioContext)());a.forEach((f,i)=>{const o=ac.createOscillator(),g=ac.createGain();o.frequency.value=f;g.gain.value=.15;o.connect(g);g.connect(ac.destination);o.start(ac.currentTime+i*.15);o.stop(ac.currentTime+i*.15+.12)})}catch(_){}}
+function tone(a){if(localStorage.snd==="0")return;try{const ac=window._ac||(window._ac=new(window.AudioContext||window.webkitAudioContext)());ac.resume();a.forEach((f,i)=>{const o=ac.createOscillator(),g=ac.createGain();o.frequency.value=f;g.gain.value=.15;o.connect(g);g.connect(ac.destination);o.start(ac.currentTime+i*.15);o.stop(ac.currentTime+i*.15+.12)})}catch(_){}}
 function bal(sq){const n={BAT:0,BOWL:0,AR:0,WK:0};sq.forEach(s=>n[R.pl[s.p].r]++);return`<br><span class="pill">🏏 ${n.BAT}</span><span class="pill">🎯 ${n.BOWL}</span><span class="pill">⚡ ${n.AR}</span><span class="pill">🧤 ${n.WK}</span>${sq.length>2&&!n.WK?'<span class="pill">⚠️ no keeper</span>':""}`}
 function pause(){const c=R.cur;R.paused?cref.update({paused:false,"cur/end":now()+(R.rem||0)}):cref.update({paused:true,rem:Math.max(0,c.end-now())})}
 function undo(){const l=R.last,m=R.members[l.by],sq=(m.squad||[]).slice(0,-1);cref.update({["members/"+l.by+"/purse"]:+(m.purse+l.price).toFixed(2),["members/"+l.by+"/squad"]:sq.length?sq:null,cur:{i:l.i,bid:l.price,by:l.by,end:now()+R.cfg.timer*1000,state:"bidding",nb:0},last:null})}
@@ -502,8 +547,8 @@ function capPick(x){return`<div class="mu">Choose your captain (+10 overall):</d
 function sim(){const T=tms().filter(x=>!x.el);if(T.length<2)return note("Need at least 2 complete teams");const pts={},out=[];T.forEach(x=>pts[x.u]=0);
 for(let i=0;i<T.length;i++)for(let j=i+1;j<T.length;j++){const a=T[i],b=T[j],pa=Math.max(.1,Math.min(.9,.5+(a.sc-b.sc)/(a.sc+b.sc)*4)),w=Math.random()<pa?a:b,l=w===a?b:a,ws=150+Math.floor(Math.random()*60),ls=ws-1-Math.floor(Math.random()*35);pts[w.u]+=2;out.push(w.m.team+" "+ws+"/"+Math.floor(Math.random()*7+1)+" beat "+l.m.team+" "+ls+"/"+Math.floor(Math.random()*10))}
 cref.child("sim").set({m:out,t:T.map(x=>({n:x.m.team,p:pts[x.u]})).sort((a,b)=>b.p-a.p)})}
-function champ(ms){const w=ms[0];return w&&!w.el?`<div class="c" style="text-align:center"><div class="big">🏆</div><b>${esc(w.m.team)}</b> (${esc(w.m.name)}) wins with Overall <b>${w.sc}</b><div class="mu">${esc(R.cfg.sn||"")}</div></div>`:""}
-function cmp(ms){const mx=Math.max(...ms.map(x=>x.sc),1);return`<h2>⚖️ Squad comparison</h2>`+ms.map(x=>`<div class="c"><div style="display:flex;justify-content:space-between"><b>${x.el?"❌ ":""}${esc(x.m.team)}</b><b>${x.sc}</b></div><div style="height:10px;border-radius:8px;background:#0007;margin:6px 0"><i style="display:block;height:100%;width:${x.sc/mx*100}%;border-radius:8px;background:${x.el?"#666":"linear-gradient(90deg,var(--ac),var(--gn))"}"></i></div><span class="pill">avg OVR ${x.sq.length?(x.sc/x.sq.length).toFixed(1):0}</span>${bal(x.m.squad||[])}</div>`).join("")}
+function champ(ms){const w=ms[0];return w&&!w.el?`<div class="c" style="text-align:center"><div class="big">🏆</div><b>${tn(w.m)}</b> (${esc(w.m.name)}) wins with Overall <b>${w.sc}</b><div class="mu">${esc(R.cfg.sn||"")}</div></div>`:""}
+function cmp(ms){const mx=Math.max(...ms.map(x=>x.sc),1);return`<h2>⚖️ Squad comparison</h2>`+ms.map(x=>`<div class="c"><div style="display:flex;justify-content:space-between"><b>${x.el?"❌ ":""}${tn(x.m)}</b><b>${x.sc}</b></div><div style="height:10px;border-radius:8px;background:#0007;margin:6px 0"><i style="display:block;height:100%;width:${x.sc/mx*100}%;border-radius:8px;background:${x.el?"#666":"linear-gradient(90deg,var(--ac),var(--gn))"}"></i></div><span class="pill">avg OVR ${x.sq.length?(x.sc/x.sq.length).toFixed(1):0}</span>${bal(x.m.squad||[])}</div>`).join("")}
 function shareRes(){const t="🏏 Cricket Auction result\n"+tms().map((x,i)=>(x.el?"❌ ":i+1+". ")+x.m.team+" – Overall "+x.sc+(x.el?" (eliminated)":"")).join("\n")+"\nmade by TAHSEEN";navigator.share?navigator.share({text:t}).catch(()=>{}):navigator.clipboard.writeText(t).then(()=>note("Copied ✔"))}
 function trd(){const M=R.members,mm=M[me],sell=$("tr_m").value==="sell";$("tr_t").style.display=sell?"block":"none";
 const keep=(id,h)=>{const e=$(id),v=e.value;e.innerHTML=h;e.value=v},o=[];
@@ -512,7 +557,7 @@ else Object.entries(M).forEach(([u,m])=>{if(u!==me)(m.squad||[]).forEach(s=>o.pu
 keep("tr_p",o.join("")||"<option value=''>No players available</option>");
 keep("tr_t",Object.entries(M).filter(([u])=>u!==me).map(([u,m])=>`<option value="${u}">${esc(m.team)}</option>`).join(""));
 const sl=R.cfg.squad-(mm.squad||[]).length,mx=Math.max(0,+(mm.purse-Math.max(0,sl-1)*R.cfg.base).toFixed(2));
-$("a_need").innerHTML=`📋 ${sl} slots left · 💵 ${mm.purse} Cr purse · max bid ${mx} Cr`;const cc=R.cur;$("a_pass").textContent=cc&&cc.state==="bidding"?"⏭ Passed: "+Object.keys(cc.ps||{}).length+"/"+Object.keys(M).length:"";
+$("a_strip").innerHTML=Object.entries(M).map(([u,m])=>`<div class="chip${R.cur&&R.cur.state==="bidding"&&R.cur.by===u?" lead":""}${u===me?" me":""}"><div class="ce">${esc(m.em||"🏏")}</div><b>${esc(m.team)}</b><small>💵 ${m.purse} · ${(m.squad||[]).length}/${R.cfg.squad}</small></div>`).join("");$("a_need").innerHTML=`📋 ${sl} slots left · 💵 ${mm.purse} Cr purse · max bid ${mx} Cr`;const cc=R.cur;$("a_pass").textContent=cc&&cc.state==="bidding"?"⏭ Passed: "+Object.keys(cc.ps||{}).length+"/"+Object.keys(M).length:"";
 const all=Object.values(M).flatMap(m=>(m.squad||[]).map(s=>({...s,t:m.team}))).sort((a,b)=>b.price-a.price).slice(0,10);
 $("a_sold").innerHTML=all.length?`<div class="c">`+all.map(s=>`${esc(R.pl[s.p].n)} → <b>${esc(s.t)}</b> · ${s.price} Cr`).join("<br>")+`</div>`:`<div class="mu">No players sold yet</div>`;
 $("tr_in").innerHTML=Object.entries(R.trades||{}).filter(([k,t])=>t.st==="open"&&t.by&&t.by!==me&&(t.b===me||t.s===me)&&M[t.by]&&R.pl[t.p]).map(([k,t])=>`<div class="c">💱 <b>${esc(M[t.by].team)}</b> ${t.by===t.b?"wants to buy":"offers you"} <b>${esc(R.pl[t.p].n)}</b>${t.by===t.b?" from you":""} for <b>${t.price} Cr</b><br><button onclick="acc('${k}')">Accept</button> <button class="r" onclick="rej('${k}')">Reject</button></div>`).join("")}
@@ -529,15 +574,15 @@ let ls=null,pcs={},vref=null,myTs=0;
 const ICE={iceServers:[{urls:"stun:stun.l.google.com:19302"},{urls:"stun:stun1.l.google.com:19302"}]};
 async function mic(){if(ls)return stopMic();
 if(!navigator.mediaDevices||!window.RTCPeerConnection)return note("Voice not supported here. Use Chrome on an https link.");
-try{ls=await navigator.mediaDevices.getUserMedia({audio:true})}catch(e){return note("Mic blocked. Open the game from an https link and allow the microphone.")}
-myTs=Date.now();$("mic").textContent="🔇 Leave voice";$("mt").style.display="inline-block";
+try{ls=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:true,noiseSuppression:true,autoGainControl:true,channelCount:1}})}catch(e){return note("Mic blocked. Open the game from an https link and allow the microphone.")}
+muted=false;gate();myTs=Date.now();$("mic").textContent="🔇 Leave voice";$("mt").style.display="inline-block";
 const vm=cref.child("voice/"+me);vm.set(myTs);vm.onDisconnect().remove();
 vref=cref.child("voice");vref.on("value",s=>{const v=s.val()||{};
 Object.keys(pcs).forEach(u=>{if(!v[u]||pcs[u].ts!==v[u])drop(u)});
 Object.keys(v).forEach(u=>{if(u!==me&&!pcs[u]&&ls)peer(u,me<u,v[u])})})}
 function peer(u,init,ts){const k=[me,u].sort().join("_")+"_"+Math.max(myTs,ts),pc=new RTCPeerConnection(ICE),base=cref.child("rtc/"+k);pcs[u]={pc,base,ts};
 ls.getTracks().forEach(t=>pc.addTrack(t,ls));
-pc.ontrack=e=>{let a=$("au_"+u);if(!a){a=document.createElement("audio");a.id="au_"+u;a.autoplay=true;document.body.appendChild(a)}a.srcObject=e.streams[0]};
+pc.ontrack=e=>{let a=$("au_"+u);if(!a){a=document.createElement("audio");a.id="au_"+u;a.autoplay=true;a.setAttribute("playsinline","");document.body.appendChild(a)}a.srcObject=e.streams[0]};
 pc.onicecandidate=e=>{if(e.candidate)base.child("ice_"+me).push(JSON.stringify(e.candidate))};
 const ai=(c,n)=>pc.remoteDescription?pc.addIceCandidate(c).catch(()=>{}):n<30&&setTimeout(()=>ai(c,n+1),500);
 base.child("ice_"+u).on("child_added",s=>ai(JSON.parse(s.val()),0));
@@ -545,8 +590,8 @@ if(init){pc.createOffer().then(o=>pc.setLocalDescription(o)).then(()=>base.child
 base.child("answer").on("value",s=>{if(s.val()&&!pc.currentRemoteDescription)pc.setRemoteDescription(JSON.parse(s.val()))})}
 else base.child("offer").on("value",s=>{if(s.val()&&!pc.currentRemoteDescription)pc.setRemoteDescription(JSON.parse(s.val())).then(()=>pc.createAnswer()).then(a=>pc.setLocalDescription(a)).then(()=>base.child("answer").set(JSON.stringify(pc.localDescription)))})}
 function drop(u){const p=pcs[u];if(!p)return;try{p.pc.close();["offer","answer","ice_"+u].forEach(x=>p.base.child(x).off())}catch(_){}delete pcs[u];const a=$("au_"+u);if(a)a.remove()}
-function stopMic(){if(!ls)return;ls.getTracks().forEach(t=>t.stop());ls=null;Object.keys(pcs).forEach(u=>drop(u));if(vref)vref.off();if(cref)cref.child("voice/"+me).remove();$("mic").textContent="🎙 Join voice";$("mt").style.display="none"}
-function mute(){const t=ls&&ls.getAudioTracks()[0];if(!t)return;t.enabled=!t.enabled;$("mt").textContent=t.enabled?"Mute":"Unmute"}
+function stopMic(){if(!ls)return;clearInterval(gi);ls.getTracks().forEach(t=>t.stop());ls=null;Object.keys(pcs).forEach(u=>drop(u));if(vref)vref.off();if(cref)cref.child("voice/"+me).remove();$("mic").textContent="🎙 Join voice";$("mt").style.display="none"}
+function mute(){muted=!muted;$("mt").textContent=muted?"Unmute":"Mute"}
 async function lb(){$("lb_l").innerHTML='<div class="c">Loading…</div>';try{const v=(await db.ref("hist").once("value")).val()||{};
 const L=Object.entries(v).map(([k,o])=>{const a=Object.values(o);return{n:a[0].n||k,p:a.length,w:a.filter(x=>x.rank===1).length}}).sort((a,b)=>b.w-a.w||a.p-b.p);
 $("lb_l").innerHTML=L.map((x,i)=>`<div class="c">${["🥇","🥈","🥉"][i]||i+1+"."} <b>${esc(x.n)}</b> <span class="pill">🏆 ${x.w} wins</span><span class="pill">${x.p} played</span></div>`).join("")||'<div class="c">No games yet</div>'}catch(e){note(e.message)}}
@@ -556,7 +601,7 @@ const LGB='<span class="pill" style="background:#b8860b">👑 LEGEND</span>';
 function sb(p){const f=v=>v?v:"–",B=(l,v)=>`<div><small>${l}</small><b>${v}</b></div>`;
 if(p.a==null&&p.b==null&&p.x==null)return`<div style="grid-column:1/-1" class="mu">${esc(p.s||"")}</div>`;
 return p.r==="BOWL"?B("TEST","avg "+f(p.a))+B("ODI","avg "+f(p.b))+B("T20","eco "+f(p.x)):p.r==="AR"?B("TEST","–")+B("ODI","bat "+f(p.a)+"<br>bowl "+f(p.b))+B("T20","SR "+f(p.x)):B("TEST","avg "+f(p.a))+B("ODI","avg "+f(p.b))+B("T20","SR "+f(p.x))}
-function card(p,hide){const lg=LG.has(p.n);return`<div class="c pc${lg?" lg":""}">${hide?'<span class="av big" style="background:#555">?</span>':av(p,1)}<div><b>${hide?"❓ Mystery player":esc(p.n)}</b><div><span class="pill ${p.r}">${p.r}</span><span class="pill">${esc(p.c)}</span>${lg?LGB:""}</div></div>${hide?"":`<div class="ovr">${p.q}<small>OVR</small></div>`}<div class="st3">${hide?'<div style="grid-column:1/-1" class="mu">Name and stats appear after the first bid</div>':sb(p)}</div></div>`}
+function card(p,hide,star){const lg=LG.has(p.n);return`<div class="c pc${lg?" lg":""} ${hide?"":p.q>=90?"rg":p.q>=82?"rs":"rb2"}">${hide?'<span class="av big" style="background:#555">?</span>':av(p,1)}<div><b>${hide?"❓ Mystery player":esc(p.n)}</b><div><span class="pill ${p.r}">${p.r}</span><span class="pill">${esc(p.c)}</span>${lg?LGB:""}${!hide&&WLH(p.n)?'<span class="pill" style="background:#7b3fe4">⭐ Wishlist</span>':""}</div>${star?`<button class="g" data-n="${esc(p.n)}" onclick="wl(this.dataset.n)">${WLH(p.n)?"⭐ Wishlisted":"☆ Wishlist"}</button>`:""}</div>${hide?"":`<div class="ovr">${p.q}<small>OVR</small></div>`}<div class="st3">${hide?'<div style="grid-column:1/-1" class="mu">Name and stats appear after the first bid</div>':sb(p)}</div></div>`}
 function aimg(e,u){if(!u||!e.isConnected)return;const i=document.createElement("img");i.src=u;i.onerror=()=>i.remove();e.appendChild(i)}
 async function fp(n){if(n in PH)return PH[n];try{const j=await(await fetch("https://en.wikipedia.org/w/api.php?action=query&generator=search&gsrsearch="+encodeURIComponent(n+" cricketer")+"&gsrlimit=1&prop=pageimages&piprop=thumbnail&pithumbsize=200&format=json&origin=*")).json();
 const g=j.query&&Object.values(j.query.pages)[0];PH[n]=(g&&g.thumbnail&&g.thumbnail.source)||"";localStorage.ph=JSON.stringify(PH);return PH[n]}catch(_){return""}}
@@ -575,4 +620,27 @@ async function ses(){$("h_ses").innerHTML="";try{if(!db||!hk())return;const v=(a
 const L=Object.values(v).filter(x=>x.k&&x.k[hk()]).sort((a,b)=>b.d-a.d);
 $("h_ses").innerHTML=L.map(x=>`<div class="c"><b>${esc(x.n)}</b> <span class="pill">${new Date(x.d).toLocaleDateString()}</span><br>🏆 ${esc(x.w)}<div class="mu">${(x.m||[]).map(t=>esc(t.t)+" "+t.s).join(" · ")}</div></div>`).join("")||'<div class="c mu">No sessions yet</div>'}catch(_){}}
 mph();
+
+let adm=false,adq="",gi=0,muted=false,lw=-1,wb=0;
+const WLH=n=>JSON.parse(localStorage.wl||"[]").includes(n);
+function wl(n){let w=JSON.parse(localStorage.wl||"[]");w=w.includes(n)?w.filter(x=>x!==n):w.concat(n);localStorage.wl=JSON.stringify(w);srch()}
+function gate(){try{const ac=window._ac||(window._ac=new(window.AudioContext||window.webkitAudioContext)());ac.resume();const an=ac.createAnalyser();an.fftSize=512;ac.createMediaStreamSource(ls).connect(an);
+const d=new Uint8Array(an.fftSize),t=ls.getAudioTracks()[0];let hold=0;gi=setInterval(()=>{an.getByteTimeDomainData(d);let m=0;d.forEach(v=>m=Math.max(m,Math.abs(v-128)));if(m>5)hold=Date.now()+500;t.enabled=!muted&&Date.now()<hold},80)}catch(_){}}
+async function hs(t){t="tahseen-auction|"+t;if(window.crypto&&crypto.subtle){const b=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(t));return[...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,"0")).join("")}let h=5381;for(const c of t)h=(h*33^c.charCodeAt(0))>>>0;return"d"+h}
+async function adminOpen(){if(!db)return note("Firebase not connected");if(adm){show("adm");return aload()}show("alog");const v=(await db.ref("admin/h").once("value")).val();$("al_t").textContent=v?"Enter your admin PIN":"First time: choose your admin PIN (4+ characters). Do this first, before anyone else!";$("al_b").textContent=v?"Unlock":"Set PIN"}
+async function alogin(){const p=$("al_p").value;if(p.length<4)return note("PIN must be 4+ characters");const h=await hs(p),cur=(await db.ref("admin/h").once("value")).val();
+if(!cur)await db.ref("admin/h").set(h);else if(cur!==h)return note("Wrong PIN");adm=true;$("al_p").value="";show("adm");aload()}
+async function chpin(){const p=$("ad_n").value;if(!adm||p.length<4)return note("PIN must be 4+ characters");await db.ref("admin/h").set(await hs(p));$("ad_n").value="";note("PIN changed ✔")}
+async function aload(){const S=(await db.ref("sessions").limitToLast(100).once("value")).val()||{},H=(await db.ref("hist").once("value")).val()||{};
+$("ad_s").innerHTML=Object.entries(S).sort((a,b)=>b[1].d-a[1].d).map(([k,x])=>`<div class="c"><b>${esc(x.n||k)}</b> <span class="pill">${new Date(x.d).toLocaleDateString()}</span><br>🏆 ${esc(x.w||"")}<br><button class="r" onclick="adel('sessions/${k}')">Delete</button></div>`).join("")||'<div class="c mu">No sessions</div>';
+$("ad_h").innerHTML=Object.entries(H).map(([k,o])=>`<div class="c"><b>${esc(Object.values(o)[0].n||k)}</b> <span class="pill">${Object.keys(o).length} games</span> <button class="r" onclick="adel('hist/${k}')">Delete all</button>`+Object.entries(o).map(([c,x])=>`<div class="mu">${esc(x.sn||c)} · rank ${x.rank}/${x.of} · ${esc(x.t||"")} <a href="#" onclick="adel('hist/${k}/${c}');return false" style="color:var(--rd)">✖ delete</a></div>`).join("")+`</div>`).join("")||'<div class="c mu">No history</div>'}
+function adel(p){if(!adm)return;if(adq!==p){adq=p;return note("Tap again to confirm delete")}adq="";db.ref(p).remove().then(()=>{note("Deleted ✔");aload()})}
+
+let auto=false,ax="",lbBy=null;
+const tn=m=>esc(m.em||"🏏")+" "+esc(m.team);
+function snd(){localStorage.snd=localStorage.snd==="0"?"1":"0";$("sn").textContent=localStorage.snd==="0"?"🔇":"🔊"}
+$("sn").textContent=localStorage.snd==="0"?"🔇":"🔊";
+function confetti(){const f=document.createDocumentFragment();for(let i=0;i<46;i++){const d=document.createElement("i");d.className="cf";d.style.cssText=`left:${Math.random()*100}vw;background:hsl(${Math.random()*360},90%,60%);animation-delay:${Math.random()*.4}s;animation-duration:${1.6+Math.random()}s`;f.appendChild(d)}document.body.appendChild(f);setTimeout(()=>document.querySelectorAll(".cf").forEach(e=>e.remove()),3200)}
+function podium(ms){const t=ms.filter(x=>!x.el).slice(0,3);if(!t.length)return"";const o=[t[1],t[0],t[2]],H=[70,104,52],M=["🥈","🥇","🥉"];
+return`<div class="pod">${o.map((x,i)=>x?`<div class="pc3"><div class="pe">${esc(x.m.em||"🏏")}</div><b>${esc(x.m.team)}</b><small>${x.sc}</small><div class="bar" style="height:${H[i]}px">${M[i]}</div></div>`:"<div></div>").join("")}</div>`}
 </script></body></html>
