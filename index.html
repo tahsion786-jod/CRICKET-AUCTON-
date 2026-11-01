@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Cricket Auction · made by TAHSEEN</title>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+<script>if(typeof firebase==="undefined"){document.write('<script src="https://cdn.jsdelivr.net/npm/firebase@10.12.2/firebase-app-compat.js"><\/script><script src="https://cdn.jsdelivr.net/npm/firebase@10.12.2/firebase-database-compat.js"><\/script>')}</script>
+<style>
+:root{--bg:#06150f;--cd:#0e2b21;--ln:#1b4a3a;--tx:#f1f7f3;--mu:#86ab9b;--ac:#ffb400;--rd:#e0314b;--gn:#2ecc71}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;background:radial-gradient(120% 60% at 50% 0,#12402f 0,var(--bg) 60%) fixed;color:var(--tx);font:15px/1.45 system-ui,sans-serif}
+.s{display:none;padding:34px 14px 50px;max-width:480px;margin:auto}.s.on{display:block}
+.hero{text-align:center;padding:12px 0 6px}.ball{font-size:48px}
+h1{font-size:32px;margin:2px 0;letter-spacing:-.5px}h2{margin:24px 0 10px;font-size:19px}
+.c{background:linear-gradient(160deg,#123a2d,#0c261d);border:1px solid var(--ln);border-radius:16px;padding:13px;margin:9px 0;box-shadow:0 4px 14px #0006}
+button{background:linear-gradient(#ffc933,var(--ac));color:#1a1200;border:0;border-radius:12px;padding:12px 14px;font-weight:800;font-size:15px;margin:3px 0;box-shadow:0 3px 0 #a87500}
+button:active{transform:translateY(2px);box-shadow:0 1px 0 #a87500}
+button.g{background:#1d4a3b;color:var(--tx);box-shadow:0 3px 0 #11302a}button.r{background:var(--rd);color:#fff;box-shadow:0 3px 0 #8f1c2f}
+button.b{display:block;width:100%}button:disabled{opacity:.35}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0}
+.t{display:flex;flex-direction:column;align-items:center;gap:4px;padding:16px 8px;border-radius:16px}.t i{font-style:normal;font-size:28px}
+input,select{width:100%;padding:12px;border-radius:12px;border:1px solid var(--ln);background:#071d15;color:var(--tx);font-size:15px;margin:3px 0}
+label{color:var(--mu);font-size:13px}.row{display:flex;gap:8px}.row>*{flex:1}
+.pill{display:inline-block;background:var(--ln);border-radius:20px;padding:1px 9px;font-size:12px;margin:2px 2px 2px 0}
+.BAT{background:#1e6fd9}.BOWL{background:#c8102e}.AR{background:#7b3fe4}.WK{background:#0f9d7a}
+.big{font-size:36px;font-weight:800;color:var(--ac);line-height:1.1}.mu{color:var(--mu);font-size:13px}
+.av{position:relative;overflow:hidden;width:46px;height:46px;border-radius:50%;color:#fff;display:inline-flex;align-items:center;justify-content:center;font-weight:800;margin-right:8px;vertical-align:middle;border:2px solid var(--ac)}
+.av img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+#tb{height:8px;border-radius:8px;background:#0007;overflow:hidden;margin:6px 0}#tb i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--rd),var(--ac),var(--gn));transition:width .25s linear}
+.fl div{padding:3px 0}
+#fb{position:fixed;top:0;left:0;right:0;text-align:center;font-size:12px;padding:5px;background:#000b;z-index:9}
+#chat{height:120px;overflow:auto;font-size:13px;background:#071d15;border-radius:10px;padding:6px}
+.pc{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center}.pc.lg{border-color:var(--ac);box-shadow:0 0 14px #ffb40055}
+.av.big{width:72px;height:72px;font-size:24px;margin:0}
+.ovr{width:56px;height:56px;border-radius:50%;border:3px solid var(--ac);display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:22px;font-weight:800;color:var(--ac);line-height:1}.ovr small{font-size:9px;color:var(--mu)}
+.st3{grid-column:1/-1;display:grid;grid-template-columns:repeat(3,1fr);gap:6px}.st3>div{background:#0007;border-radius:10px;padding:6px;text-align:center;font-size:12px}.st3 small{display:block;color:var(--mu);font-size:10px}.st3 b{font-size:13px}
+body{font-family:"Segoe UI",system-ui,-apple-system,sans-serif}
+.hero{background:linear-gradient(135deg,#17573f,#0a271e);border:1px solid var(--ln);border-radius:22px;padding:20px 10px;box-shadow:0 8px 24px #0009;margin-bottom:8px}
+.hero h1{background:linear-gradient(90deg,#fff,var(--ac));-webkit-background-clip:text;background-clip:text;color:transparent;font-size:34px}
+h2::before{content:"";display:inline-block;width:4px;height:16px;background:var(--ac);border-radius:3px;margin-right:8px;vertical-align:-2px}
+.t{background:linear-gradient(160deg,#ffd45c,#ff9f1a);min-height:92px;font-size:14px}.t i{font-size:32px}.t.g{background:linear-gradient(160deg,#21634d,#133b2f);color:var(--tx)}
+.sold{background:linear-gradient(160deg,#1c6b3a,#0c3a22);border-color:var(--gn)}.uns{background:linear-gradient(160deg,#5a1b25,#2a0d12);border-color:var(--rd)}
+input:focus,select:focus,textarea:focus{outline:2px solid var(--ac)}
+textarea{width:100%;padding:10px;border-radius:12px;border:1px solid var(--ln);background:#071d15;color:var(--tx);font-size:12px;margin-top:6px}
+.s.on{animation:fi .25s}@keyframes fi{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.pill{font-weight:600}.c b{letter-spacing:.2px}
+</style></head><body>
+<div id="toast" style="display:none;position:fixed;bottom:20px;left:12px;right:12px;background:#d7263d;color:#fff;padding:12px;border-radius:10px;z-index:99;text-align:center;font-weight:700"></div>
+<div id="vb" style="display:none;position:fixed;right:10px;bottom:10px;z-index:8"><button id="mic" onclick="mic()">🎙 Join voice</button> <button class="g" id="mt" onclick="mute()" style="display:none">Mute</button></div>
+<div id="fb">⏳ Connecting to Firebase…</div>
+
+<div class="s on" id="home">
+<div class="hero"><div class="ball">🏏</div><h1>Cricket Auction</h1><div style="color:var(--ac);font-weight:800;letter-spacing:.5px">made by TAHSEEN</div><div class="mu">Bid with friends · 2 to 6 teams · <b id="pc">0</b> players</div></div>
+<label>Your name</label><input id="pname" placeholder="Enter your name" onchange="localStorage.pname=this.value">
+<div class="grid">
+<button class="t" onclick="needName()&&show('create')"><i>👑</i>Create room</button>
+<button class="t" onclick="needName()&&show('join')"><i>👥</i>Join room</button>
+<button class="t g" onclick="show('search');srch()"><i>🔍</i>Players</button>
+<button class="t g" onclick="hist()"><i>📈</i>History</button>
+<button class="t g" onclick="show('pm');pm()"><i>🛠</i>Manage players</button>
+<button class="t g" onclick="show('lb');lb()"><i>🥇</i>Leaderboard</button>
+<button class="t g" id="rj" onclick="rejoin()" style="display:none"><i>🔁</i>Rejoin room</button></div>
+<h2>What's inside</h2><div class="c fl">
+<div>👥 Online multiplayer, 2 to 6 friends</div><div>👑 Host controls: Sold, Unsold, Next, Pause, Undo</div><div>🔄 Host transfer</div>
+<div>⚙️ Custom room: purse, players, teams, squad, timer, base price, bid step</div><div>🔨 Live bidding: quick bid and custom bid</div>
+<div>⏱ Auction timer with progress bar</div><div>🔥 Bid war alert and 🔔 sold sound</div><div>🔁 Unsold round</div>
+<div>👕 Own team names, purse and squads</div><div>📊 Team balance meter (batter, bowler, all-rounder, keeper)</div>
+<div>💬 Live chat with emoji</div><div>📱 Rejoin if the app closes</div><div>🏆 Results, ranking and badges</div>
+<div>🃏 Player cards: OVR, Test/ODI/T20 stats, auto photos, legends</div><div>🛠 Add, edit, delete players and photos yourself</div><div>📈 History of games, wins and losses (saved online)</div><div>✅ Squad rule: buy exactly your squad size, or you are eliminated</div><div>💱 Trade offers between teams during the auction</div><div>❓ Mystery players (hidden until first bid)</div><div>©️ Captain and ⚖️ squad comparison (highest total overall wins)</div><div>🎙 Live voice chat in the room</div><div>🧾 Sold board · 📋 Slots tracker · 📤 Share result</div><div>⏭ Pass button · 🕘 Bid history · 📅 Session names with winners · 🤖 AI comparison page</div><div>🥇 Leaderboard of all players</div></div>
+<h2>📜 Rules</h2><div class="c fl">
+<div>1. Host makes a room, friends join with the code (2 to 6 teams).</div>
+<div>2. Only the host presses Next, Sold, Unsold, Pause and Undo. Host can bid too.</div>
+<div>3. Every bid resets the timer to at least 8 sec. You cannot outbid yourself. No bids after time ends or while paused.</div>
+<div>4. Buy exactly the squad size. Squad full = no more bids. Fewer players at the end = ❌ eliminated.</div>
+<div>5. Keep base price for every empty slot. Max bid = purse − base × empty slots.</div>
+<div>6. Trade: ask for another team's player, or offer your own, with a price. The other team must accept.</div>
+<div>7. Mystery players stay hidden until the first bid.</div>
+<div>8. Winner = highest total OVR of the whole squad (+10 for captain). 90+ OVR is rare, 👑 legends are the best.</div>
+<div>9. Pass button: tap it if you are not interested. After the auction, open the AI page to compare squads.</div></div>
+<h2>Coming soon</h2><div class="c fl"><div>🎴 RTM card</div><div>👀 Spectator mode</div><div>🏟 Playoffs and final</div><div>🧢 Manual Playing XI and batting order</div><div>🎯 Wishlist alerts</div><div>📈 Bid history graph</div><div>📊 Season stats</div></div>
+</div>
+
+<div class="s" id="create"><h2>Room settings</h2>
+<label>Session name</label><input id="f_sn" placeholder="e.g. Friday Night Auction"><label>Purse per team (Cr)</label><input id="f_purse" type="number" value="100">
+<label>Players in auction pool (at least teams × squad)</label><input id="f_pool" type="number" value="70">
+<label>Max teams (2–6)</label><input id="f_teams" type="number" value="6" min="2" max="6">
+<label>Squad size (every team must buy exactly this many)</label><input id="f_squad" type="number" value="11"><label>Mystery players</label><select id="f_my"><option value="0">Off</option><option value="1">On (some hidden until first bid)</option></select>
+<div class="row"><div><label>Timer (sec)</label><input id="f_timer" type="number" value="20"></div>
+<div><label>Base price (Cr)</label><input id="f_base" type="number" value="1" step="0.25"></div>
+<div><label>Bid step (Cr)</label><input id="f_inc" type="number" value="0.5" step="0.25"></div></div>
+<button class="b" onclick="mk()">Create room</button><button class="b g" onclick="back()">← Back</button></div>
+
+<div class="s" id="join"><h2>Join room</h2>
+<input id="jcode" placeholder="Room code" maxlength="5" style="text-transform:uppercase;font-size:22px;text-align:center">
+<button class="b" onclick="join()">Join</button><button class="b g" onclick="back()">← Back</button></div>
+
+<div class="s" id="lobby"><h2>Lobby</h2>
+<div class="c" style="text-align:center"><div class="mu">Share this code with friends</div><div class="big" id="l_code"></div><div class="mu" id="l_cfg"></div></div>
+<label>Your team name</label><input id="l_team" onchange="cref.child('members/'+me+'/team').set(this.value)">
+<div id="l_list"></div>
+<button class="b" id="l_start" onclick="start()">Start auction</button>
+<div class="mu" id="l_wait">Waiting for host to start…</div>
+<button class="b g" onclick="leave()">← Leave (you can rejoin)</button></div>
+
+<div class="s" id="auction"><h2>Live auction</h2>
+<div id="a_top"></div><div class="mu" id="a_msg" style="text-align:center;min-height:18px"></div><div class="mu" id="a_pass" style="text-align:center"></div>
+<div id="a_need" class="c mu"></div>
+<div id="a_bid" class="c"><button class="b" onclick="bid()" id="b1"></button><button class="b g" onclick="pass()">⏭ Pass on this player</button>
+<div class="row"><input id="cb" type="number" step="0.25" placeholder="Custom bid (Cr)"><button onclick="bid(1)">Bid</button></div></div>
+<div id="a_host" class="c"><div class="mu">Host controls</div>
+<div class="row"><button id="hs" onclick="sold()">🔨 Sold</button><button id="hu" class="r" onclick="unsold()">Unsold</button></div>
+<button class="b g" id="hn" onclick="nxt()">Next player ▶</button>
+<div class="row"><button class="g" id="hp" onclick="pause()">⏸ Pause</button><button class="g" id="hz" onclick="undo()">↩️ Undo sale</button></div>
+<button class="b g" onclick="cref.update({status:'done'})">End auction</button></div>
+<h2>Teams</h2><div id="a_teams"></div>
+<h2>🧾 Sold board</h2><div id="a_sold"></div>
+<h2>💱 Trade</h2><div class="c"><select id="tr_m" onchange="trd()"><option value="ask">Ask for another team's player</option><option value="sell">Offer my player to a team</option></select>
+<select id="tr_t"></select><select id="tr_p"></select>
+<div class="row"><input id="tr_c" type="number" step="0.25" placeholder="Price (Cr)"><button onclick="sendTr()">Send offer</button></div></div><div id="tr_in"></div>
+<h2>Chat</h2><div id="chat"></div>
+<div class="row"><input id="ci" placeholder="Message…"><button style="flex:0" onclick="say()">Send</button></div>
+<div><button class="g" onclick="say('🔥')">🔥</button> <button class="g" onclick="say('👏')">👏</button> <button class="g" onclick="say('😂')">😂</button> <button class="g" onclick="say('💸')">💸</button></div>
+<button class="b g" onclick="leave()">← Leave (you can rejoin)</button></div>
+
+<div class="s" id="result"><h2>🏆 Final results</h2>
+<div class="mu">Overall = sum of every squad player's OVR (+10 if captain chosen). Highest overall wins. Eliminated teams cannot win.</div><div id="r_list"></div>
+<button class="b" onclick="aiPage()">🤖 Next: Compare with AI</button>
+<button class="b g" onclick="shareRes()">📤 Share result</button>
+<button class="b" onclick="leave()">Home</button></div>
+
+<div class="s" id="pm"><h2>Manage players</h2>
+<div class="c"><input id="m_n" placeholder="Name"><div class="row"><select id="m_r" onchange="mph()"><option>BAT</option><option>BOWL</option><option>AR</option><option>WK</option></select><input id="m_c" placeholder="Country e.g. IND"></div>
+<div class="row"><input id="m_q" type="number" placeholder="Rating 1-100"><input id="m_i" placeholder="Photo link (optional)"></div>
+<div class="mu" id="m_h"></div><div class="row"><input id="m_a" type="number" step="0.1"><input id="m_b" type="number" step="0.1"><input id="m_x" type="number" step="0.1"></div>
+<button class="b" id="m_b" onclick="psave()">Save player</button></div>
+<button class="b g" onclick="pseed()">⬆️ Add default players to Firebase</button>
+<div id="m_l"></div><button class="b g" onclick="back()">← Back</button></div>
+
+<div class="s" id="ai"><h2>🤖 Compare with AI</h2>
+<div class="c">👋 Hello, I am <b>Tahseen</b>. For a better competition:<br>1. Copy all players' squads.<br>2. Paste them in ChatGPT or any AI for comparison.<br>3. Paste this prompt after pasting all the squads:</div>
+<div class="c mu" id="ai_p"></div>
+<button class="b" onclick="cp($('ai_t').value)">📋 Copy all squads</button>
+<button class="b" onclick="cp(AIP)">📋 Copy prompt</button>
+<button class="b g" onclick="cp($('ai_t').value+'\n\n'+AIP)">📋 Copy squads + prompt together</button>
+<textarea id="ai_t" rows="10" readonly></textarea>
+<button class="b g" onclick="back()">← Back</button></div>
+
+<div class="s" id="lb"><h2>🥇 Leaderboard</h2><div id="lb_l"></div><button class="b g" onclick="back()">← Back</button></div>
+
+<div class="s" id="search"><h2>Player search</h2>
+<input id="sq" placeholder="Search player name" oninput="srch()">
+<select id="sr" onchange="srch()"><option value="">All roles</option><option>BAT</option><option>BOWL</option><option>AR</option><option>WK</option></select>
+<div class="mu" id="sc"></div><div id="sl"></div><button class="b g" onclick="back()">← Back</button></div>
+
+<div class="s" id="hist"><h2>My history</h2><div class="c" id="h_sum"></div><div id="h_list"></div><h2>📅 Sessions</h2><div id="h_ses"></div>
+<button class="b g" onclick="back()">← Back</button></div>
+
+<script>
+// ====== 1. PASTE YOUR FIREBASE CONFIG HERE ======
+const CFG={apiKey:"AIzaSyBrZizMA90oiCUacIpB552oqFNBwN2bnX0",authDomain:"auction-game-cr.firebaseapp.com",databaseURL:"https://auction-game-cr-default-rtdb.firebaseio.com",projectId:"auction-game-cr",storageBucket:"auction-game-cr.firebasestorage.app",messagingSenderId:"1047144968094",appId:"1:1047144968094:web:eeeaf8898b88bef2fc708f"};
+
+// Format: Name|Role|Country|Rating|a|b|c  (BAT/WK: Test avg, ODI avg, T20 SR · BOWL: Test bowl avg, ODI bowl avg, T20 eco · AR: ODI bat avg, ODI bowl avg, T20 SR). Approximate.
+function mkS(r,a,b,c){const f=x=>x||"–";return r==="BOWL"?`Test bowl avg ${f(a)} · ODI bowl avg ${f(b)} · T20 eco ${f(c)}`:r==="AR"?`ODI bat avg ${f(a)} · ODI bowl avg ${f(b)} · T20 SR ${f(c)}`:`Test avg ${f(a)} · ODI avg ${f(b)} · T20 SR ${f(c)}`}
+const DATA=`Virat Kohli|BAT|IND|95|48.7|58.2|137
+Rohit Sharma|BAT|IND|92|40.6|49.2|140
+Shubman Gill|BAT|IND|90|35|58|139
+Suryakumar Yadav|BAT|IND|91|8|37|167
+Yashasvi Jaiswal|BAT|IND|88|50|0|163
+Ruturaj Gaikwad|BAT|IND|84|0|40|142
+Abhishek Sharma|BAT|IND|85|0|0|175
+Shreyas Iyer|BAT|IND|86|37|47|135
+Rinku Singh|BAT|IND|81|0|55|165
+Tilak Varma|BAT|IND|83|0|40|145
+KL Rahul|WK|IND|88|34|49|135
+Rishabh Pant|WK|IND|90|43|34|128
+Sanju Samson|WK|IND|84|0|56|138
+Ishan Kishan|WK|IND|82|0|33|142
+MS Dhoni|WK|IND|92|38|50.6|126
+Jasprit Bumrah|BOWL|IND|97|20|24|6.3
+Mohammed Shami|BOWL|IND|91|27|23|8.5
+Mohammed Siraj|BOWL|IND|88|29|24|8.9
+Kuldeep Yadav|BOWL|IND|87|21|26|6.8
+Yuzvendra Chahal|BOWL|IND|85|0|27|7.9
+Arshdeep Singh|BOWL|IND|86|0|31|8.2
+Bhuvneshwar Kumar|BOWL|IND|83|26|37|6.9
+Varun Chakravarthy|BOWL|IND|82|0|33|7
+R Ashwin|BOWL|IND|91|24|33|6.9
+Ravindra Jadeja|AR|IND|92|33|36|125
+Hardik Pandya|AR|IND|90|34|37|145
+Axar Patel|AR|IND|86|22|32|135
+Washington Sundar|AR|IND|82|23|40|128
+Shardul Thakur|AR|IND|80|17|33|133
+Shivam Dube|AR|IND|79|0|0|146
+Sachin Tendulkar|BAT|IND|97|53.8|44.8|0
+Rahul Dravid|BAT|IND|92|52.3|39.2|0
+Sourav Ganguly|BAT|IND|88|42.2|41|0
+Virender Sehwag|BAT|IND|90|49.3|35|0
+Gautam Gambhir|BAT|IND|85|41.9|39.7|123
+Sunil Gavaskar|BAT|IND|93|51.1|35.1|0
+Suresh Raina|BAT|IND|83|26.5|35.3|135
+Yuvraj Singh|AR|IND|88|36.6|38.5|136
+Kapil Dev|AR|IND|93|24|28|0
+Anil Kumble|BOWL|IND|91|29.6|30.9|0
+Zaheer Khan|BOWL|IND|87|32|29.4|0
+Harbhajan Singh|BOWL|IND|85|32.5|33.4|7
+Babar Azam|BAT|PAK|93|45|56|129
+Mohammad Rizwan|WK|PAK|89|42|46|127
+Fakhar Zaman|BAT|PAK|84|33|46|135
+Imam-ul-Haq|BAT|PAK|82|42|48|0
+Saim Ayub|BAT|PAK|80|0|0|140
+Iftikhar Ahmed|BAT|PAK|78|0|28|145
+Shaheen Afridi|BOWL|PAK|91|26|24|8.2
+Naseem Shah|BOWL|PAK|85|29|27|8
+Haris Rauf|BOWL|PAK|84|0|29|8.3
+Hasan Ali|BOWL|PAK|81|31|29|8.4
+Shadab Khan|AR|PAK|83|20|34|125
+Mohammad Nawaz|AR|PAK|79|21|36|120
+Imran Khan|AR|PAK|93|33|27|0
+Wasim Akram|BOWL|PAK|94|23.6|23.5|0
+Waqar Younis|BOWL|PAK|91|23.6|23.8|0
+Shoaib Akhtar|BOWL|PAK|88|25.7|24.4|0
+Shahid Afridi|AR|PAK|88|23.6|34.5|117
+Javed Miandad|BAT|PAK|90|52.6|41.7|0
+Inzamam-ul-Haq|BAT|PAK|90|49.6|39.5|0
+Steve Smith|BAT|AUS|93|56|43|125
+David Warner|BAT|AUS|90|44.6|45.3|142
+Travis Head|BAT|AUS|90|45|43|160
+Marnus Labuschagne|BAT|AUS|86|47|33|122
+Usman Khawaja|BAT|AUS|84|44|40|0
+Tim David|BAT|AUS|82|0|0|160
+Alex Carey|WK|AUS|84|37|40|125
+Josh Inglis|WK|AUS|83|35|40|150
+Mitchell Marsh|AR|AUS|87|38|35|143
+Glenn Maxwell|AR|AUS|89|34|48|155
+Marcus Stoinis|AR|AUS|85|32|38|140
+Cameron Green|AR|AUS|85|30|40|150
+Pat Cummins|BOWL|AUS|93|22|28|8.4
+Mitchell Starc|BOWL|AUS|91|27|22.5|7.6
+Josh Hazlewood|BOWL|AUS|90|24|25|7.6
+Adam Zampa|BOWL|AUS|87|0|27|7.4
+Nathan Lyon|BOWL|AUS|88|30|46|0
+Ricky Ponting|BAT|AUS|94|51.9|42|0
+Adam Gilchrist|WK|AUS|93|47.6|35.9|0
+Matthew Hayden|BAT|AUS|90|50.7|43.8|0
+Michael Clarke|BAT|AUS|87|49.1|44.6|0
+Michael Hussey|BAT|AUS|88|51.5|48.2|0
+Shane Warne|BOWL|AUS|95|25.4|25.8|0
+Glenn McGrath|BOWL|AUS|94|21.6|22|0
+Brett Lee|BOWL|AUS|89|30.8|23.4|7.5
+Joe Root|BAT|ENG|94|50|51|126
+Harry Brook|BAT|ENG|88|55|30|150
+Jos Buttler|WK|ENG|92|34|40|149
+Jonny Bairstow|WK|ENG|86|36|40|141
+Phil Salt|WK|ENG|84|0|30|165
+Zak Crawley|BAT|ENG|79|33|0|0
+Ben Duckett|BAT|ENG|80|37|0|0
+Ben Stokes|AR|ENG|91|39|42|136
+Moeen Ali|AR|ENG|83|25|50|141
+Sam Curran|AR|ENG|83|21|36|135
+Liam Livingstone|AR|ENG|83|31|41|161
+Chris Woakes|AR|ENG|85|24|31|120
+Will Jacks|AR|ENG|80|0|0|165
+Jofra Archer|BOWL|ENG|89|31|24|7.3
+Mark Wood|BOWL|ENG|86|29|27|8.2
+Adil Rashid|BOWL|ENG|86|55|32|8
+James Anderson|BOWL|ENG|90|26.5|29.2|7.9
+Stuart Broad|BOWL|ENG|88|27.7|30.2|7.5
+Ian Botham|AR|ENG|93|23|28|0
+Kevin Pietersen|BAT|ENG|88|47.3|40.7|141
+Andrew Flintoff|AR|ENG|88|24|24|0
+Alastair Cook|BAT|ENG|90|45.4|36.4|0
+Kane Williamson|BAT|NZ|93|54|48|125
+Devon Conway|WK|NZ|86|51|46|136
+Tom Latham|WK|NZ|82|40|38|0
+Glenn Phillips|WK|NZ|85|36|36|147
+Finn Allen|BAT|NZ|79|0|34|166
+Ross Taylor|BAT|NZ|88|44.2|48.2|122
+Brendon McCullum|WK|NZ|90|38.6|30.4|136
+Daryl Mitchell|AR|NZ|87|43|40|140
+Rachin Ravindra|AR|NZ|84|37|40|135
+Mitchell Santner|AR|NZ|83|26|35|125
+Daniel Vettori|AR|NZ|88|17|32|0
+Trent Boult|BOWL|NZ|91|27|25|7.6
+Tim Southee|BOWL|NZ|88|28|33|8.2
+Kyle Jamieson|BOWL|NZ|85|21|31|8.2
+Lockie Ferguson|BOWL|NZ|85|0|28|7.8
+Matt Henry|BOWL|NZ|84|28|27|8.5
+Richard Hadlee|BOWL|NZ|92|22.3|21.6|0
+Quinton de Kock|WK|SA|90|38|45|138
+Heinrich Klaasen|WK|SA|88|0|43|168
+Aiden Markram|BAT|SA|86|40|40|136
+David Miller|BAT|SA|87|0|40|140
+Temba Bavuma|BAT|SA|82|34|46|130
+Rassie van der Dussen|BAT|SA|84|0|50|126
+Tristan Stubbs|BAT|SA|80|0|0|150
+Faf du Plessis|BAT|SA|88|40|47|135
+Hashim Amla|BAT|SA|90|46.6|49.5|0
+AB de Villiers|BAT|SA|96|50.7|53.5|135
+Graeme Smith|BAT|SA|86|48.3|37.9|0
+Kagiso Rabada|BOWL|SA|91|22|28|8.2
+Anrich Nortje|BOWL|SA|87|25|27|8.4
+Lungi Ngidi|BOWL|SA|84|25|27|9
+Keshav Maharaj|BOWL|SA|82|34|38|7.3
+Tabraiz Shamsi|BOWL|SA|83|0|24|7.3
+Marco Jansen|AR|SA|85|20|40|130
+Dale Steyn|BOWL|SA|93|22.9|25.9|6.9
+Jacques Kallis|AR|SA|95|44|32|0
+Shaun Pollock|AR|SA|88|26|24|0
+Nicholas Pooran|WK|WI|86|0|33|150
+Shai Hope|WK|WI|82|0|50|120
+Shimron Hetmyer|BAT|WI|83|0|38|140
+Rovman Powell|BAT|WI|80|0|0|140
+Chris Gayle|BAT|WI|93|42|37.1|137
+Brian Lara|BAT|WI|95|52.9|40.5|0
+Viv Richards|BAT|WI|96|50.2|47|0
+Andre Russell|AR|WI|88|27|31|168
+Sunil Narine|AR|WI|87|15|26|160
+Kieron Pollard|AR|WI|85|26|44|148
+Jason Holder|AR|WI|85|22|32|130
+Dwayne Bravo|AR|WI|85|25|29|120
+Alzarri Joseph|BOWL|WI|82|35|30|8.4
+Kemar Roach|BOWL|WI|83|30|33|7.7
+Akeal Hosein|BOWL|WI|81|0|30|7.1
+Rashid Khan|BOWL|AFG|94|20|18|6.2
+Mohammad Nabi|AR|AFG|85|25|36|130
+Rahmanullah Gurbaz|WK|AFG|83|0|34|134
+Ibrahim Zadran|BAT|AFG|82|0|44|120
+Mujeeb Ur Rahman|BOWL|AFG|83|0|30|6.5
+Fazalhaq Farooqi|BOWL|AFG|82|0|27|7.6
+Azmatullah Omarzai|AR|AFG|80|30|35|140
+Noor Ahmad|BOWL|AFG|81|0|31|7
+Wanindu Hasaranga|AR|SL|87|18|30|138
+Pathum Nissanka|BAT|SL|82|35|36|120
+Kusal Mendis|WK|SL|82|36|35|137
+Charith Asalanka|BAT|SL|80|0|45|130
+Dhananjaya de Silva|AR|SL|80|30|40|120
+Dasun Shanaka|AR|SL|78|20|40|135
+Angelo Mathews|AR|SL|85|41|39|120
+Maheesh Theekshana|BOWL|SL|82|0|35|7
+Matheesha Pathirana|BOWL|SL|83|0|24|8.3
+Kumar Sangakkara|WK|SL|94|57.4|42|125
+Mahela Jayawardene|BAT|SL|91|49.8|33|130
+Muttiah Muralitharan|BOWL|SL|95|22.7|23.1|0
+Lasith Malinga|BOWL|SL|91|33.2|28.8|7.1
+Sanath Jayasuriya|AR|SL|90|32.4|36.8|0
+Chaminda Vaas|BOWL|SL|88|29|27.5|0
+Shakib Al Hasan|AR|BAN|90|37|29|130
+Mushfiqur Rahim|WK|BAN|83|38|36|0
+Tamim Iqbal|BAT|BAN|84|38|36|0
+Litton Das|WK|BAN|80|0|35|130
+Mustafizur Rahman|BOWL|BAN|85|0|28|7.9
+Taskin Ahmed|BOWL|BAN|80|0|32|8.3
+Mehidy Hasan Miraz|AR|BAN|81|20|33|110
+Mahmudullah|AR|BAN|78|35|38|120
+Sikandar Raza|AR|ZIM|82|27|35|140
+Paul Stirling|BAT|IRE|78|0|35|135
+Don Bradman|BAT|AUS|99|99.9|0|0
+Garfield Sobers|AR|WI|97|0|0|0
+Malcolm Marshall|BOWL|WI|90|20.9|26.9|0
+Curtly Ambrose|BOWL|WI|89|21|24.1|0
+Michael Holding|BOWL|WI|87|23.7|21.4|0
+Clive Lloyd|BAT|WI|88|46.7|39.6|0
+Allan Border|BAT|AUS|88|50.6|30.6|0
+Steve Waugh|BAT|AUS|88|51|32.9|0
+Saeed Anwar|BAT|PAK|87|45.1|39.2|0
+Mohammad Yousuf|BAT|PAK|87|52.3|41.7|0
+Abdul Qadir|BOWL|PAK|85|32.8|26.2|0
+VVS Laxman|BAT|IND|88|45.5|30.8|0
+Mohammad Azharuddin|BAT|IND|85|45|36.9|0
+Javagal Srinath|BOWL|IND|83|30.5|28.1|0
+Mark Boucher|WK|SA|84|30.3|27.5|0
+Lance Klusener|AR|SA|85|41|30|0
+Jonty Rhodes|BAT|SA|80|0|35|0
+Chris Cairns|AR|NZ|84|29|32|0`;
+const RT={"Don Bradman":99,"Garfield Sobers":97,"Sachin Tendulkar":97,"Viv Richards":96,"Virat Kohli":95,"Jasprit Bumrah":95,"Shane Warne":94,"Glenn McGrath":94,"AB de Villiers":94,"Wasim Akram":93,"Muttiah Muralitharan":93,"Ricky Ponting":93,"Jacques Kallis":93,"Brian Lara":93,"MS Dhoni":92,"Joe Root":92,"Kane Williamson":91,"Steve Smith":91,"Rohit Sharma":90,"Rashid Khan":90};
+const LG=new Set("Sachin Tendulkar|Rahul Dravid|Sourav Ganguly|Virender Sehwag|Gautam Gambhir|Sunil Gavaskar|Suresh Raina|Yuvraj Singh|Kapil Dev|Anil Kumble|Zaheer Khan|Harbhajan Singh|MS Dhoni|VVS Laxman|Mohammad Azharuddin|Javagal Srinath|Imran Khan|Wasim Akram|Waqar Younis|Shoaib Akhtar|Shahid Afridi|Javed Miandad|Inzamam-ul-Haq|Saeed Anwar|Mohammad Yousuf|Abdul Qadir|Ricky Ponting|Adam Gilchrist|Matthew Hayden|Michael Clarke|Michael Hussey|Shane Warne|Glenn McGrath|Brett Lee|Don Bradman|Allan Border|Steve Waugh|Ian Botham|Kevin Pietersen|Andrew Flintoff|Alastair Cook|Brendon McCullum|Ross Taylor|Daniel Vettori|Richard Hadlee|Chris Cairns|AB de Villiers|Hashim Amla|Graeme Smith|Dale Steyn|Jacques Kallis|Shaun Pollock|Mark Boucher|Lance Klusener|Jonty Rhodes|Chris Gayle|Brian Lara|Viv Richards|Garfield Sobers|Malcolm Marshall|Curtly Ambrose|Michael Holding|Clive Lloyd|Dwayne Bravo|Kumar Sangakkara|Mahela Jayawardene|Muttiah Muralitharan|Lasith Malinga|Sanath Jayasuriya|Chaminda Vaas".split("|"));
+const DEF=DATA.trim().split("\n").map(l=>{const a=l.split("|");return{n:a[0],r:a[1],c:a[2],q:+a[3],s:mkS(a[1],+a[4],+a[5],+a[6]),a:+a[4],b:+a[5],x:+a[6]}}).map(p=>({...p,q:RT[p.n]||Math.min(89,Math.round(70+(p.q-76)*.9)+(LG.has(p.n)?4:0))}));
+let P=DEF,eid=null,lk="";
+
+function note(t){const e=document.getElementById("toast");e.textContent=t;e.style.display="block";clearTimeout(window._t);window._t=setTimeout(()=>e.style.display="none",4000)}
+window.onerror=(m)=>note("Error: "+m);
+const $=i=>document.getElementById(i),esc=s=>String(s).replace(/[&<>"']/g,c=>"&#"+c.charCodeAt(0)+";");
+let off=0,db,cref,chatRef,code,R,last,stack=["home"];
+const me=localStorage.uid||(localStorage.uid="u"+Math.random().toString(36).slice(2,9));
+const now=()=>Date.now()+off;
+$("pname").value=localStorage.pname||"";$("pc").textContent=DEF.length;if(localStorage.room)$("rj").style.display="block";
+const nm=()=>$("pname").value.trim();
+function needName(){if(!nm()){note("Type your name first");$("pname").focus();return false}localStorage.pname=nm();return true}
+function show(id,bk){document.querySelectorAll(".s").forEach(e=>e.classList.remove("on"));$(id).classList.add("on");if(!bk&&stack[stack.length-1]!==id)stack.push(id);scrollTo(0,0)}
+function back(){stack.pop();show(stack[stack.length-1]||"home",1)}
+
+try{if(typeof firebase==="undefined")throw Error("Firebase library not loaded. Check internet / open in Chrome");firebase.initializeApp(CFG);try{firebase.database.INTERNAL.forceLongPolling()}catch(_){}db=firebase.database();
+db.ref(".info/connected").on("value",s=>$("fb").textContent=s.val()?"🟢 Firebase connected":"🔴 Offline – open this file in Chrome, wait 10s");
+db.ref(".info/serverTimeOffset").on("value",s=>off=s.val()||0);
+db.ref("players").on("value",s=>{const v=s.val();P=v?Object.entries(v).map(([k,x])=>({id:k,...x})):DEF;$("pc").textContent=P.length;if($("search").classList.contains("on"))srch();if($("pm").classList.contains("on"))pm()})}catch(e){$("fb").textContent="❌ "+e.message}
+
+function mk(){if(!db)return note("Firebase not loaded. Check internet and config.");const g=i=>+$(i).value;
+const cfg={purse:g("f_purse"),pool:Math.min(g("f_pool"),P.length),teams:Math.max(2,Math.min(6,g("f_teams"))),squad:g("f_squad"),timer:g("f_timer"),base:g("f_base"),inc:g("f_inc"),my:g("f_my"),sn:$("f_sn").value.trim()||nm()+"'s session"};
+const c=Math.random().toString(36).slice(2,7).toUpperCase();
+const pl=P.map(p=>({n:p.n,r:p.r,c:p.c,q:p.q,s:p.s||"",img:p.img||"",a:p.a==null?null:p.a,b:p.b==null?null:p.b,x:p.x==null?null:p.x})).sort(()=>Math.random()-.5).slice(0,cfg.pool),order=pl.map((_,i)=>i);
+db.ref("rooms/"+c).set({host:me,cfg,status:"lobby",pl,order,pos:0,members:{[me]:{name:nm(),team:nm()+"'s XI",purse:cfg.purse}}}).then(()=>enter(c)).catch(e=>note(e.message))}
+
+async function join(){if(!db)return note("Firebase not loaded. Check internet and config.");const c=$("jcode").value.trim().toUpperCase();
+const r=(await db.ref("rooms/"+c).once("value")).val();if(!r)return note("Room not found");
+const ms=r.members||{};
+if(!ms[me]){if(r.status!=="lobby")return note("Auction already started");
+if(Object.keys(ms).length>=r.cfg.teams)return note("Room is full");
+await db.ref(`rooms/${c}/members/${me}`).set({name:nm(),team:nm()+"'s XI",purse:r.cfg.purse})}
+enter(c)}
+function rejoin(){needName()&&enter(localStorage.room)}
+
+function enter(c){code=c;localStorage.room=c;if(cref)cref.off();if(chatRef)chatRef.off();last=null;$("chat").innerHTML="";
+cref=db.ref("rooms/"+c);cref.on("value",s=>{R=s.val();render()});
+chatRef=cref.child("chat").limitToLast(30);
+chatRef.on("child_added",s=>{const m=s.val(),d=document.createElement("div");d.textContent=m.n+": "+m.t;$("chat").appendChild(d);$("chat").scrollTop=1e9})}
+function leave(){stopMic();$("vb").style.display="none";if(cref)cref.off();if(chatRef)chatRef.off();R=null;code=null;last=null;stack=["home"];$("rj").style.display=localStorage.room?"block":"none";show("home",1)}
+
+function render(){
+if(!R||!R.members||!R.members[me]){note("Room not found or you are not in it");localStorage.removeItem("room");return leave()}
+$("vb").style.display="block";const st=R.status;if(st!==last){last=st;show(st==="lobby"?"lobby":st==="live"?"auction":"result")}
+st==="lobby"?rLobby():st==="live"?(rAuc(),trd()):rRes()}
+
+function rLobby(){const ms=Object.entries(R.members),h=R.host===me,c=R.cfg;
+$("l_code").textContent=code;
+$("l_cfg").textContent=`${c.sn?c.sn+" · ":""}Purse ${c.purse} Cr · ${c.pool} players · ${c.teams} teams max · squad ${c.squad} · ${c.timer}s · base ${c.base} Cr · step ${c.inc} Cr`;
+if(document.activeElement!==$("l_team"))$("l_team").value=R.members[me].team;
+$("l_list").innerHTML=ms.map(([u,m])=>`<div class="c">${u===R.host?"👑 ":""}<b>${esc(m.team)}</b> <span class="pill">${esc(m.name)}</span>${h&&u!==me?` <button class="g" onclick="cref.child('host').set('${u}')">Make host</button>`:""}</div>`).join("")+`<div class="mu">${ms.length}/${c.teams} teams joined (need at least 2)</div>`;
+$("l_start").style.display=h?"block":"none";$("l_start").disabled=ms.length<2;$("l_wait").style.display=h?"none":"block"}
+
+function rAuc(){const c=R.cur,h=R.host===me,cf=R.cfg,m=R.members[me],open=c&&c.state==="bidding";
+const k=c?c.i+"|"+c.bid+"|"+c.state:"";if(k!==lk){lk=k;if(c&&c.state==="sold")tone([660,880,1100]);else if(c&&c.state==="unsold")tone([220,180]);else if(c&&c.by)tone([520])}
+let t=`<div class="c">Waiting for host to bring the first player…</div>`;
+if(c){const p=R.pl[c.i],hide=c.my&&!c.by&&c.state==="bidding",by=c.by&&R.members[c.by];
+t=`${card(p,hide)}
+<div class="c ${c.state==="sold"?"sold":c.state==="unsold"?"uns":""}" style="text-align:center"><div class="big" id="tm"></div><div id="tb"><i></i></div><div class="big" style="color:var(--tx)">${c.bid} Cr</div>
+<div>${c.state==="sold"?"✅ SOLD to "+esc(by.team):c.state==="unsold"?"❌ Unsold":by?(c.nb>=4?"🔥 BID WAR! ":"")+"Highest bid: "+esc(by.team):"No bids yet · base price"}</div>${bh(c)}</div>`}
+$("a_top").innerHTML=t;
+$("a_bid").style.display=open?"block":"none";
+if(c)$("b1").textContent=`Bid ${c.by?+(c.bid+cf.inc).toFixed(2):c.bid} Cr`;
+$("a_host").style.display=h?"block":"none";
+$("hs").disabled=!(open&&c.by);$("hu").disabled=!open;$("hn").disabled=open;$("hp").disabled=!open;$("hp").textContent=R.paused?"▶ Resume":"⏸ Pause";$("hz").disabled=!(c&&c.state==="sold"&&R.last&&R.last.i===c.i);
+$("hn").textContent=Object.values(R.members).every(x=>(x.squad||[]).length>=cf.squad)?"🏁 All squads full – Finish":R.pos>=R.order.length?(Object.keys(R.uns||{}).length&&!R.rd?"🔁 Unsold round":"Finish auction"):`Next player ▶ (${R.pos}/${R.order.length})`;
+$("a_teams").innerHTML=Object.entries(R.members).map(([u,x])=>{const sq=x.squad||[];
+return`<div class="c">${u===R.host?"👑 ":""}<b>${esc(x.team)}</b>${u===me?" (you)":""}<br><span class="pill">💵 ${x.purse} Cr left</span><span class="pill">${sq.length}/${cf.squad} players</span>${bal(sq)}
+<div class="mu">${sq.map(s=>esc(R.pl[s.p].n)+" "+s.price).join(", ")||"No players yet"}</div></div>`}).join("")}
+setInterval(()=>{const c=R&&R.cur,e=$("tm");if(!e)return;e.textContent=(R&&R.paused)?"⏸ Paused":c&&c.state==="bidding"?"⏱ "+Math.max(0,Math.ceil((c.end-now())/1000))+"s":"";const b=document.querySelector("#tb i");if(b)b.style.width=(c&&c.state==="bidding"&&!R.paused?Math.max(0,Math.min(100,(c.end-now())/(R.cfg.timer*10))):0)+"%"},250);
+
+function msg(t){$("a_msg").textContent=t}
+function bid(custom){const c=R.cur,cf=R.cfg,m=R.members[me];if(!c||c.state!=="bidding")return;if(R.paused)return msg("⏸ Paused by host");
+const a=custom?+$("cb").value:+(c.by?c.bid+cf.inc:c.bid).toFixed(2);
+if(c.by===me)return msg("You are already the highest bidder");
+const mx=+(m.purse-(cf.squad-(m.squad||[]).length-1)*cf.base).toFixed(2);if(!a||a>mx)return msg(a?"Max bid "+mx+" Cr (keep "+cf.base+" Cr for each empty slot)":"Enter a bid");
+if((m.squad||[]).length>=cf.squad)return msg("Your squad is full");if(c.ps&&c.ps[me])return msg("You passed on this player");
+cref.child("cur").transaction(x=>{if(!x||x.state!=="bidding"||now()>x.end)return;
+if(a<(x.by?x.bid+cf.inc:x.bid)-1e-9)return;
+return{...x,bid:+a.toFixed(2),by:me,nb:(x.nb||0)+1,h:((x.h?x.h+";":"")+me+","+a.toFixed(2)).split(";").slice(-5).join(";"),end:Math.max(x.end,now()+8000)}},(e,ok)=>msg(ok?"✅ Bid placed":"❌ Too late, too low, or outbid"))}
+
+function nxt(){const cf=R.cfg;if(Object.values(R.members).every(x=>(x.squad||[]).length>=R.cfg.squad))return cref.update({status:"done"});if(R.pos>=R.order.length){const u=Object.keys(R.uns||{}).map(Number);if(u.length&&!R.rd)return cref.update({order:u,pos:0,uns:null,rd:1});return cref.update({status:"done"})}
+cref.update({paused:false,cur:{i:R.order[R.pos],bid:cf.base,by:null,end:now()+cf.timer*1000,state:"bidding",my:cf.my&&Math.random()<.25?1:0},pos:R.pos+1})}
+function sold(){const c=R.cur,m=R.members[c.by],sq=(m.squad||[]).concat([{p:c.i,price:c.bid,nb:c.nb||0}]);
+cref.update({paused:false,last:{by:c.by,i:c.i,price:c.bid},"cur/state":"sold",["members/"+c.by+"/purse"]:+(m.purse-c.bid).toFixed(2),["members/"+c.by+"/squad"]:sq})}
+function unsold(){cref.update({paused:false,"cur/state":"unsold",["uns/"+R.cur.i]:1})}
+function say(t){t=t||$("ci").value.trim();if(!t)return;cref.child("chat").push({n:R.members[me].name,t});$("ci").value=""}
+
+function tms(){return Object.entries(R.members).map(([u,m])=>{const sq=(m.squad||[]).map(x=>({...R.pl[x.p],i:x.p,price:x.price,nb:x.nb||0}));
+const cp=m.cap!=null?sq.find(x=>x.i===m.cap):0,sc=sq.reduce((a,b)=>a+b.q,0)+(cp?10:0);return{u,m,sq,cp,sc,el:sq.length<R.cfg.squad,why:sq.length+"/"+R.cfg.squad+" players",sp:R.cfg.purse-m.purse}}).sort((a,b)=>a.el-b.el||b.sc-a.sc)}
+function rRes(){const ms=tms();
+$("r_list").innerHTML=champ(ms)+badges(ms)+cmp(ms)+ms.map((x,i)=>`<div class="c">${x.el?"❌ ":i?i+1+". ":"🏆 "}<b>${esc(x.m.team)}</b> <span class="pill">Overall ${x.sc}</span>${x.el?`<span class="pill">Eliminated: ${x.why}</span>`:""}<br>
+<span class="pill">Spent ${x.sp.toFixed(2)} Cr</span><span class="pill">Left ${x.m.purse} Cr</span><span class="pill">${x.sq.length} players</span>
+<div class="mu">${x.sq.map(p=>esc(p.n)+" · OVR "+p.q+" ("+p.r+", "+p.price+" Cr)").join(", ")||"No players"}</div>${x.cp?`<div>©️ Captain: ${esc(x.cp.n)}</div>`:""}${x.u===me?capPick(x):""}</div>`).join("");
+const sk="sd"+code;if(R.host===me&&!localStorage[sk]){localStorage[sk]=1;const nk=n=>(n||"x").toLowerCase().replace(/[^a-z0-9]/g,"")||"x";db.ref("sessions/"+code).set({n:R.cfg.sn||code,d:Date.now(),w:ms[0]&&!ms[0].el?ms[0].m.team+" ("+ms[0].m.name+")":"No winner",m:ms.map(x=>({t:x.m.team,n:x.m.name,s:x.sc,e:x.el?1:0})),k:Object.fromEntries(ms.map(x=>[nk(x.m.name),1]))})}
+const k="done"+code;if(!localStorage[k]){localStorage[k]=1;const h=JSON.parse(localStorage.hist||"[]"),i=ms.findIndex(x=>x.u===me);
+if(i>=0){h.unshift({sn:R.cfg.sn||"",w:ms[0]&&!ms[0].el?ms[0].m.team+" ("+ms[0].m.name+")":"No winner",n:localStorage.pname,c:code,d:new Date().toLocaleDateString(),t:ms[i].m.team,rank:i+1,of:ms.length,sc:ms[i].sc});localStorage.hist=JSON.stringify(h);if(hk())db.ref("hist/"+hk()+"/"+code).set(h[0])}}}
+
+function srch(){const q=$("sq").value.toLowerCase(),r=$("sr").value,L=P.filter(p=>(p.n+" "+p.c).toLowerCase().includes(q)&&(!r||p.r===r));$("sc").textContent=L.length+" of "+P.length+" players";
+$("sl").innerHTML=L.slice(0,60).map(p=>`${card(p)}`).join("")||`<div class="c">No player found</div>`}
+const hk=()=>(localStorage.pname||"").toLowerCase().replace(/[^a-z0-9]/g,"");
+async function hist(){let h=JSON.parse(localStorage.hist||"[]");
+try{if(db&&hk()){const v=(await db.ref("hist/"+hk()).once("value")).val();if(v)Object.values(v).forEach(x=>{if(!h.some(y=>y.c===x.c))h.push(x)})}}catch(_){}
+$("h_sum").textContent=`Played ${h.length} · Won ${h.filter(x=>x.rank===1).length} · Lost ${h.filter(x=>x.rank>1).length}`;
+$("h_list").innerHTML=h.map(x=>`<div class="c">${x.sn?"<b>"+esc(x.sn)+"</b><br>":""}${x.rank===1?"🏆 Won":"Rank "+x.rank+" of "+x.of} · <b>${esc(x.t)}</b>${x.w?`<br>🏆 Winner: ${esc(x.w)}`:""}<br><span class="pill">Room ${x.c}</span><span class="pill">${x.d}</span><span class="pill">Overall ${x.sc}</span></div>`).join("")||`<div class="c">No games yet. Finish an auction to see it here.</div>`;show("hist");ses()}
+
+const CC={IND:"#1e6fd9",AUS:"#d4a800",ENG:"#c8102e",PAK:"#0b7a3b",NZ:"#222",SA:"#13804f",WI:"#7b1e3a",SL:"#1b3a8a",BAN:"#006a4e",AFG:"#2a6ad4",ZIM:"#b32020",IRE:"#169b62"};
+function av(p,big){const i=p.n.split(" ").map(w=>w[0]).slice(0,2).join("").toUpperCase(),u=p.img||PH[p.n];return`<span class="av${big?" big":""}" style="background:${CC[p.c]||"#555"}"${u?"":` data-n="${esc(p.n)}"`}>${i}${u?`<img src="${esc(u)}" onerror="this.remove()">`:""}</span>`}
+function tone(a){try{const ac=window._ac||(window._ac=new(window.AudioContext||window.webkitAudioContext)());a.forEach((f,i)=>{const o=ac.createOscillator(),g=ac.createGain();o.frequency.value=f;g.gain.value=.15;o.connect(g);g.connect(ac.destination);o.start(ac.currentTime+i*.15);o.stop(ac.currentTime+i*.15+.12)})}catch(_){}}
+function bal(sq){const n={BAT:0,BOWL:0,AR:0,WK:0};sq.forEach(s=>n[R.pl[s.p].r]++);return`<br><span class="pill">🏏 ${n.BAT}</span><span class="pill">🎯 ${n.BOWL}</span><span class="pill">⚡ ${n.AR}</span><span class="pill">🧤 ${n.WK}</span>${sq.length>2&&!n.WK?'<span class="pill">⚠️ no keeper</span>':""}`}
+function pause(){const c=R.cur;R.paused?cref.update({paused:false,"cur/end":now()+(R.rem||0)}):cref.update({paused:true,rem:Math.max(0,c.end-now())})}
+function undo(){const l=R.last,m=R.members[l.by],sq=(m.squad||[]).slice(0,-1);cref.update({["members/"+l.by+"/purse"]:+(m.purse+l.price).toFixed(2),["members/"+l.by+"/squad"]:sq.length?sq:null,cur:{i:l.i,bid:l.price,by:l.by,end:now()+R.cfg.timer*1000,state:"bidding",nb:0},last:null})}
+function badges(ms){const al=ms.flatMap(x=>x.sq.map(p=>({...p,t:x.m.team})));if(!al.length)return"";const mx=f=>al.reduce((a,b)=>f(b)>f(a)?b:a);
+const bb=mx(p=>p.q/(p.price||.01)),cs=mx(p=>p.price),bw=mx(p=>p.nb),sp=ms.reduce((a,b)=>b.sp>a.sp?b:a);
+return`<div class="c">💎 Best buy: <b>${esc(bb.n)}</b> (${esc(bb.t)})<br>👑 Costliest: <b>${esc(cs.n)}</b> · ${cs.price} Cr<br>🔥 Biggest bid war: <b>${esc(bw.n)}</b> · ${bw.nb} bids<br>💸 Biggest spender: <b>${esc(sp.m.team)}</b></div>`}
+function pm(){$("m_l").innerHTML=P.map(p=>`<div class="c">${av(p)}<b>${esc(p.n)}</b> <span class="pill ${p.r}">${p.r}</span><span class="pill">⭐ ${p.q}</span>${p.id?` <button class="g" onclick="pedit('${p.id}')">Edit</button> <button class="r" onclick="pdel('${p.id}')">Delete</button>`:""}</div>`).join("")+(P.some(p=>p.id)?"":`<div class="mu">Built-in list shown. Tap the Add button above to edit or delete players.</div>`)}
+function pedit(id){const p=P.find(x=>x.id===id);eid=id;$("m_n").value=p.n;$("m_r").value=p.r;$("m_c").value=p.c||"";$("m_q").value=p.q;$("m_i").value=p.img||"";$("m_a").value=p.a==null?"":p.a;$("m_b").value=p.b==null?"":p.b;$("m_x").value=p.x==null?"":p.x;mph();$("m_b").textContent="Update player";scrollTo(0,0)}
+function pdel(id){db.ref("players/"+id).remove()}
+function psave(){if(!db)return note("Firebase not connected");const n=$("m_n").value.trim();if(!n)return note("Enter player name");
+const g=i=>$(i).value===""?null:+$(i).value,r_=$("m_r").value,o={n,r:r_,c:$("m_c").value.trim().toUpperCase(),q:+$("m_q").value||70,a:g("m_a"),b:g("m_b"),x:g("m_x"),s:mkS(r_,g("m_a"),g("m_b"),g("m_x")),img:$("m_i").value.trim(),v:2};
+(eid?db.ref("players/"+eid).update(o):db.ref("players").push(o)).then(()=>{eid=null;["m_n","m_c","m_q","m_i","m_a","m_b","m_x"].forEach(i=>$(i).value="");$("m_b").textContent="Save player";note("Saved ✔")}).catch(e=>note(e.message))}
+function pseed(){if(!db)return;let n=0;P.forEach(p=>{if(p.id&&!p.v){const d=DEF.find(x=>x.n===p.n);if(d){db.ref("players/"+p.id).update({q:d.q,s:d.s,a:d.a,b:d.b,x:d.x,v:2});n++}}});
+const m=DEF.filter(d=>!P.some(p=>p.n===d.n));m.forEach(p=>db.ref("players").push({n:p.n,r:p.r,c:p.c,q:p.q,s:p.s,a:p.a,b:p.b,x:p.x,img:"",v:2}));note((m.length+n)+" players added or updated ✔")}
+
+function start(){const n=Object.keys(R.members).length,need=n*R.cfg.squad;if(R.cfg.pool<need)return note("Pool too small: need at least "+need+" players ("+n+" teams × "+R.cfg.squad+")");cref.update({status:"live"})}
+function capPick(x){return`<div class="mu">Choose your captain (+10 overall):</div>`+x.sq.map(p=>`<button class="g" onclick="cref.child('members/'+me+'/cap').set(${p.i})">${p.i===x.m.cap?"©️ ":""}${esc(p.n)}</button>`).join(" ")}
+function sim(){const T=tms().filter(x=>!x.el);if(T.length<2)return note("Need at least 2 complete teams");const pts={},out=[];T.forEach(x=>pts[x.u]=0);
+for(let i=0;i<T.length;i++)for(let j=i+1;j<T.length;j++){const a=T[i],b=T[j],pa=Math.max(.1,Math.min(.9,.5+(a.sc-b.sc)/(a.sc+b.sc)*4)),w=Math.random()<pa?a:b,l=w===a?b:a,ws=150+Math.floor(Math.random()*60),ls=ws-1-Math.floor(Math.random()*35);pts[w.u]+=2;out.push(w.m.team+" "+ws+"/"+Math.floor(Math.random()*7+1)+" beat "+l.m.team+" "+ls+"/"+Math.floor(Math.random()*10))}
+cref.child("sim").set({m:out,t:T.map(x=>({n:x.m.team,p:pts[x.u]})).sort((a,b)=>b.p-a.p)})}
+function champ(ms){const w=ms[0];return w&&!w.el?`<div class="c" style="text-align:center"><div class="big">🏆</div><b>${esc(w.m.team)}</b> (${esc(w.m.name)}) wins with Overall <b>${w.sc}</b><div class="mu">${esc(R.cfg.sn||"")}</div></div>`:""}
+function cmp(ms){const mx=Math.max(...ms.map(x=>x.sc),1);return`<h2>⚖️ Squad comparison</h2>`+ms.map(x=>`<div class="c"><div style="display:flex;justify-content:space-between"><b>${x.el?"❌ ":""}${esc(x.m.team)}</b><b>${x.sc}</b></div><div style="height:10px;border-radius:8px;background:#0007;margin:6px 0"><i style="display:block;height:100%;width:${x.sc/mx*100}%;border-radius:8px;background:${x.el?"#666":"linear-gradient(90deg,var(--ac),var(--gn))"}"></i></div><span class="pill">avg OVR ${x.sq.length?(x.sc/x.sq.length).toFixed(1):0}</span>${bal(x.m.squad||[])}</div>`).join("")}
+function shareRes(){const t="🏏 Cricket Auction result\n"+tms().map((x,i)=>(x.el?"❌ ":i+1+". ")+x.m.team+" – Overall "+x.sc+(x.el?" (eliminated)":"")).join("\n")+"\nmade by TAHSEEN";navigator.share?navigator.share({text:t}).catch(()=>{}):navigator.clipboard.writeText(t).then(()=>note("Copied ✔"))}
+function trd(){const M=R.members,mm=M[me],sell=$("tr_m").value==="sell";$("tr_t").style.display=sell?"block":"none";
+const keep=(id,h)=>{const e=$(id),v=e.value;e.innerHTML=h;e.value=v},o=[];
+if(sell)(mm.squad||[]).forEach(s=>o.push(`<option value="${s.p}">${esc(R.pl[s.p].n)} (OVR ${R.pl[s.p].q})</option>`));
+else Object.entries(M).forEach(([u,m])=>{if(u!==me)(m.squad||[]).forEach(s=>o.push(`<option value="${u}|${s.p}">${esc(R.pl[s.p].n)} – ${esc(m.team)}</option>`))});
+keep("tr_p",o.join("")||"<option value=''>No players available</option>");
+keep("tr_t",Object.entries(M).filter(([u])=>u!==me).map(([u,m])=>`<option value="${u}">${esc(m.team)}</option>`).join(""));
+const sl=R.cfg.squad-(mm.squad||[]).length,mx=Math.max(0,+(mm.purse-Math.max(0,sl-1)*R.cfg.base).toFixed(2));
+$("a_need").innerHTML=`📋 ${sl} slots left · 💵 ${mm.purse} Cr purse · max bid ${mx} Cr`;const cc=R.cur;$("a_pass").textContent=cc&&cc.state==="bidding"?"⏭ Passed: "+Object.keys(cc.ps||{}).length+"/"+Object.keys(M).length:"";
+const all=Object.values(M).flatMap(m=>(m.squad||[]).map(s=>({...s,t:m.team}))).sort((a,b)=>b.price-a.price).slice(0,10);
+$("a_sold").innerHTML=all.length?`<div class="c">`+all.map(s=>`${esc(R.pl[s.p].n)} → <b>${esc(s.t)}</b> · ${s.price} Cr`).join("<br>")+`</div>`:`<div class="mu">No players sold yet</div>`;
+$("tr_in").innerHTML=Object.entries(R.trades||{}).filter(([k,t])=>t.st==="open"&&t.by&&t.by!==me&&(t.b===me||t.s===me)&&M[t.by]&&R.pl[t.p]).map(([k,t])=>`<div class="c">💱 <b>${esc(M[t.by].team)}</b> ${t.by===t.b?"wants to buy":"offers you"} <b>${esc(R.pl[t.p].n)}</b>${t.by===t.b?" from you":""} for <b>${t.price} Cr</b><br><button onclick="acc('${k}')">Accept</button> <button class="r" onclick="rej('${k}')">Reject</button></div>`).join("")}
+function sendTr(){const sell=$("tr_m").value==="sell",m=R.members[me],c=+$("tr_c").value;let b,s,p;
+if(sell){if($("tr_p").value===""||!$("tr_t").value)return note("Pick a player and a team");p=+$("tr_p").value;b=$("tr_t").value;s=me}
+else{if(!$("tr_p").value)return note("Pick a player");[s,p]=$("tr_p").value.split("|");p=+p;b=me;if(c>m.purse)return note("Not enough purse");if((m.squad||[]).length>=R.cfg.squad)return note("Your squad is full")}
+if(!c)return note("Enter a price");cref.child("trades").push({b,s,by:me,p,price:c,st:"open"});note("Offer sent ✔")}
+function acc(k){const t=R.trades[k],a=R.members[t.s],b=R.members[t.b],sa=(a.squad||[]).filter(x=>x.p!==t.p);
+if(sa.length===(a.squad||[]).length)return note("Seller no longer owns this player");
+if(t.price>b.purse||(b.squad||[]).length>=R.cfg.squad)return note("Buyer cannot afford it or squad is full");
+cref.update({["members/"+t.s+"/squad"]:sa.length?sa:null,["members/"+t.s+"/purse"]:+(a.purse+t.price).toFixed(2),["members/"+t.b+"/squad"]:(b.squad||[]).concat([{p:t.p,price:t.price,nb:0}]),["members/"+t.b+"/purse"]:+(b.purse-t.price).toFixed(2),["trades/"+k+"/st"]:"done",last:null})}
+function rej(k){cref.child("trades/"+k+"/st").set("no")}
+let ls=null,pcs={},vref=null,myTs=0;
+const ICE={iceServers:[{urls:"stun:stun.l.google.com:19302"},{urls:"stun:stun1.l.google.com:19302"}]};
+async function mic(){if(ls)return stopMic();
+if(!navigator.mediaDevices||!window.RTCPeerConnection)return note("Voice not supported here. Use Chrome on an https link.");
+try{ls=await navigator.mediaDevices.getUserMedia({audio:true})}catch(e){return note("Mic blocked. Open the game from an https link and allow the microphone.")}
+myTs=Date.now();$("mic").textContent="🔇 Leave voice";$("mt").style.display="inline-block";
+const vm=cref.child("voice/"+me);vm.set(myTs);vm.onDisconnect().remove();
+vref=cref.child("voice");vref.on("value",s=>{const v=s.val()||{};
+Object.keys(pcs).forEach(u=>{if(!v[u]||pcs[u].ts!==v[u])drop(u)});
+Object.keys(v).forEach(u=>{if(u!==me&&!pcs[u]&&ls)peer(u,me<u,v[u])})})}
+function peer(u,init,ts){const k=[me,u].sort().join("_")+"_"+Math.max(myTs,ts),pc=new RTCPeerConnection(ICE),base=cref.child("rtc/"+k);pcs[u]={pc,base,ts};
+ls.getTracks().forEach(t=>pc.addTrack(t,ls));
+pc.ontrack=e=>{let a=$("au_"+u);if(!a){a=document.createElement("audio");a.id="au_"+u;a.autoplay=true;document.body.appendChild(a)}a.srcObject=e.streams[0]};
+pc.onicecandidate=e=>{if(e.candidate)base.child("ice_"+me).push(JSON.stringify(e.candidate))};
+const ai=(c,n)=>pc.remoteDescription?pc.addIceCandidate(c).catch(()=>{}):n<30&&setTimeout(()=>ai(c,n+1),500);
+base.child("ice_"+u).on("child_added",s=>ai(JSON.parse(s.val()),0));
+if(init){pc.createOffer().then(o=>pc.setLocalDescription(o)).then(()=>base.child("offer").set(JSON.stringify(pc.localDescription)));
+base.child("answer").on("value",s=>{if(s.val()&&!pc.currentRemoteDescription)pc.setRemoteDescription(JSON.parse(s.val()))})}
+else base.child("offer").on("value",s=>{if(s.val()&&!pc.currentRemoteDescription)pc.setRemoteDescription(JSON.parse(s.val())).then(()=>pc.createAnswer()).then(a=>pc.setLocalDescription(a)).then(()=>base.child("answer").set(JSON.stringify(pc.localDescription)))})}
+function drop(u){const p=pcs[u];if(!p)return;try{p.pc.close();["offer","answer","ice_"+u].forEach(x=>p.base.child(x).off())}catch(_){}delete pcs[u];const a=$("au_"+u);if(a)a.remove()}
+function stopMic(){if(!ls)return;ls.getTracks().forEach(t=>t.stop());ls=null;Object.keys(pcs).forEach(u=>drop(u));if(vref)vref.off();if(cref)cref.child("voice/"+me).remove();$("mic").textContent="🎙 Join voice";$("mt").style.display="none"}
+function mute(){const t=ls&&ls.getAudioTracks()[0];if(!t)return;t.enabled=!t.enabled;$("mt").textContent=t.enabled?"Mute":"Unmute"}
+async function lb(){$("lb_l").innerHTML='<div class="c">Loading…</div>';try{const v=(await db.ref("hist").once("value")).val()||{};
+const L=Object.entries(v).map(([k,o])=>{const a=Object.values(o);return{n:a[0].n||k,p:a.length,w:a.filter(x=>x.rank===1).length}}).sort((a,b)=>b.w-a.w||a.p-b.p);
+$("lb_l").innerHTML=L.map((x,i)=>`<div class="c">${["🥇","🥈","🥉"][i]||i+1+"."} <b>${esc(x.n)}</b> <span class="pill">🏆 ${x.w} wins</span><span class="pill">${x.p} played</span></div>`).join("")||'<div class="c">No games yet</div>'}catch(e){note(e.message)}}
+
+let PH=JSON.parse(localStorage.ph||"{}"),Q=Promise.resolve();
+const LGB='<span class="pill" style="background:#b8860b">👑 LEGEND</span>';
+function sb(p){const f=v=>v?v:"–",B=(l,v)=>`<div><small>${l}</small><b>${v}</b></div>`;
+if(p.a==null&&p.b==null&&p.x==null)return`<div style="grid-column:1/-1" class="mu">${esc(p.s||"")}</div>`;
+return p.r==="BOWL"?B("TEST","avg "+f(p.a))+B("ODI","avg "+f(p.b))+B("T20","eco "+f(p.x)):p.r==="AR"?B("TEST","–")+B("ODI","bat "+f(p.a)+"<br>bowl "+f(p.b))+B("T20","SR "+f(p.x)):B("TEST","avg "+f(p.a))+B("ODI","avg "+f(p.b))+B("T20","SR "+f(p.x))}
+function card(p,hide){const lg=LG.has(p.n);return`<div class="c pc${lg?" lg":""}">${hide?'<span class="av big" style="background:#555">?</span>':av(p,1)}<div><b>${hide?"❓ Mystery player":esc(p.n)}</b><div><span class="pill ${p.r}">${p.r}</span><span class="pill">${esc(p.c)}</span>${lg?LGB:""}</div></div>${hide?"":`<div class="ovr">${p.q}<small>OVR</small></div>`}<div class="st3">${hide?'<div style="grid-column:1/-1" class="mu">Name and stats appear after the first bid</div>':sb(p)}</div></div>`}
+function aimg(e,u){if(!u||!e.isConnected)return;const i=document.createElement("img");i.src=u;i.onerror=()=>i.remove();e.appendChild(i)}
+async function fp(n){if(n in PH)return PH[n];try{const j=await(await fetch("https://en.wikipedia.org/w/api.php?action=query&generator=search&gsrsearch="+encodeURIComponent(n+" cricketer")+"&gsrlimit=1&prop=pageimages&piprop=thumbnail&pithumbsize=200&format=json&origin=*")).json();
+const g=j.query&&Object.values(j.query.pages)[0];PH[n]=(g&&g.thumbnail&&g.thumbnail.source)||"";localStorage.ph=JSON.stringify(PH);return PH[n]}catch(_){return""}}
+function ph(){document.querySelectorAll(".av[data-n]:not([data-d])").forEach(e=>{e.dataset.d=1;const n=e.dataset.n;Q=Q.then(()=>fp(n)).then(u=>aimg(e,u))})}
+setInterval(ph,1500);
+
+function bh(c){return c.h?`<div class="mu" style="margin-top:6px">🕘 ${c.h.split(";").reverse().map(z=>{const[u,a]=z.split(",");return(R.members[u]?esc(R.members[u].team):"?")+" "+(+a)}).join(" · ")}</div>`:""}
+function pass(){if(!R.cur||R.cur.state!=="bidding")return;cref.child("cur/ps/"+me).set(1);msg("⏭ You passed on this player")}
+function mph(){const r=$("m_r").value,L=r==="BOWL"?["Test bowl avg","ODI bowl avg","T20 economy"]:r==="AR"?["ODI bat avg","ODI bowl avg","T20 strike rate"]:["Test bat avg","ODI bat avg","T20 strike rate"];["m_a","m_b","m_x"].forEach((id,i)=>$(id).placeholder=L[i]);$("m_h").textContent="Stats numbers (leave empty if unknown)"}
+const AIP="Hey chatgpt can you rate all squads in all format in out of 10 In all three format and rank all squad and fully competition";
+$("ai_p").textContent=AIP;
+function sqText(){return"Cricket Auction"+(R.cfg.sn?" – "+R.cfg.sn:"")+" (squad size "+R.cfg.squad+")\n\n"+tms().map(x=>"TEAM: "+x.m.team+" (owner "+x.m.name+") – Overall "+x.sc+(x.el?" – ELIMINATED":"")+"\n"+x.sq.map((p,i)=>(i+1)+". "+p.n+" ("+p.r+", "+p.c+", OVR "+p.q+"; "+(p.s||"")+")"+(x.m.cap===p.i?" [Captain]":"")).join("\n")).join("\n\n")}
+function aiPage(){$("ai_t").value=sqText();show("ai")}
+function cp(t){(navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(()=>note("Copied ✔")).catch(()=>{try{const e=document.createElement("textarea");e.value=t;document.body.appendChild(e);e.select();document.execCommand("copy");e.remove();note("Copied ✔")}catch(_){note("Long-press the text box and copy")}})}
+async function ses(){$("h_ses").innerHTML="";try{if(!db||!hk())return;const v=(await db.ref("sessions").limitToLast(60).once("value")).val()||{};
+const L=Object.values(v).filter(x=>x.k&&x.k[hk()]).sort((a,b)=>b.d-a.d);
+$("h_ses").innerHTML=L.map(x=>`<div class="c"><b>${esc(x.n)}</b> <span class="pill">${new Date(x.d).toLocaleDateString()}</span><br>🏆 ${esc(x.w)}<div class="mu">${(x.m||[]).map(t=>esc(t.t)+" "+t.s).join(" · ")}</div></div>`).join("")||'<div class="c mu">No sessions yet</div>'}catch(_){}}
+mph();
+</script></body></html>
