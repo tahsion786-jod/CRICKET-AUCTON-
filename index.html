@@ -73,7 +73,7 @@ body{background:radial-gradient(90% 40% at 15% 0,#2b8a6355 0,transparent 60%),ra
 #vb button{padding:7px 10px;font-size:13px}
 </style></head><body>
 <div id="toast" style="display:none;position:fixed;bottom:20px;left:12px;right:12px;background:#d7263d;color:#fff;padding:12px;border-radius:10px;z-index:99;text-align:center;font-weight:700"></div>
-<div id="vb" style="display:none;position:fixed;right:8px;top:30px;z-index:8"><button class="g" id="sn" onclick="snd()">🔊</button> <button id="mic" onclick="mic()">🎙 Join voice</button> <button class="g" id="mt" onclick="mute()" style="display:none">Mute</button></div>
+<div id="vb" style="display:none;position:fixed;right:8px;top:30px;z-index:8"><button class="g" id="sn" onclick="snd()">🔊</button> <button id="mic" onclick="mic()">🎙 Join voice</button> <button class="g" id="mt" onclick="mute()" style="display:none">Mute</button><div id="vs" class="mu" style="text-align:right;background:#000b;border-radius:8px;padding:2px 6px;margin-top:4px"></div></div>
 <div id="fb">⏳ Connecting to Firebase…</div>
 
 <div class="s on" id="home">
@@ -571,7 +571,7 @@ if(t.price>b.purse||(b.squad||[]).length>=R.cfg.squad)return note("Buyer cannot 
 cref.update({["members/"+t.s+"/squad"]:sa.length?sa:null,["members/"+t.s+"/purse"]:+(a.purse+t.price).toFixed(2),["members/"+t.b+"/squad"]:(b.squad||[]).concat([{p:t.p,price:t.price,nb:0}]),["members/"+t.b+"/purse"]:+(b.purse-t.price).toFixed(2),["trades/"+k+"/st"]:"done",last:null})}
 function rej(k){cref.child("trades/"+k+"/st").set("no")}
 let ls=null,pcs={},vref=null,myTs=0;
-const ICE={iceServers:[{urls:"stun:stun.l.google.com:19302"},{urls:"stun:stun1.l.google.com:19302"}]};
+const ICE={iceServers:[{urls:"stun:stun.l.google.com:19302"},{urls:"stun:stun1.l.google.com:19302"},{urls:["turn:openrelay.metered.ca:80","turn:openrelay.metered.ca:443","turn:openrelay.metered.ca:443?transport=tcp"],username:"openrelayproject",credential:"openrelayproject"}]};
 async function mic(){if(ls)return stopMic();
 if(!navigator.mediaDevices||!window.RTCPeerConnection)return note("Voice not supported here. Use Chrome on an https link.");
 try{ls=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:true,noiseSuppression:true,autoGainControl:true,channelCount:1}})}catch(e){return note("Mic blocked. Open the game from an https link and allow the microphone.")}
@@ -579,10 +579,10 @@ muted=false;gate();myTs=Date.now();$("mic").textContent="🔇 Leave voice";$("mt
 const vm=cref.child("voice/"+me);vm.set(myTs);vm.onDisconnect().remove();
 vref=cref.child("voice");vref.on("value",s=>{const v=s.val()||{};
 Object.keys(pcs).forEach(u=>{if(!v[u]||pcs[u].ts!==v[u])drop(u)});
-Object.keys(v).forEach(u=>{if(u!==me&&!pcs[u]&&ls)peer(u,me<u,v[u])})})}
-function peer(u,init,ts){const k=[me,u].sort().join("_")+"_"+Math.max(myTs,ts),pc=new RTCPeerConnection(ICE),base=cref.child("rtc/"+k);pcs[u]={pc,base,ts};
+Object.keys(v).forEach(u=>{if(u!==me&&!pcs[u]&&ls)peer(u,me<u,v[u])});vst()})}
+function peer(u,init,ts){const k=[me,u].sort().join("_")+"_"+Math.max(myTs,ts),pc=new RTCPeerConnection(ICE),base=cref.child("rtc/"+k);pcs[u]={pc,base,ts};pc.onconnectionstatechange=()=>vst();
 ls.getTracks().forEach(t=>pc.addTrack(t,ls));
-pc.ontrack=e=>{let a=$("au_"+u);if(!a){a=document.createElement("audio");a.id="au_"+u;a.autoplay=true;a.setAttribute("playsinline","");document.body.appendChild(a)}a.srcObject=e.streams[0]};
+pc.ontrack=e=>{let a=$("au_"+u);if(!a){a=document.createElement("audio");a.id="au_"+u;a.autoplay=true;a.setAttribute("playsinline","");document.body.appendChild(a)}a.srcObject=e.streams[0];a.play&&a.play().catch(()=>{})};
 pc.onicecandidate=e=>{if(e.candidate)base.child("ice_"+me).push(JSON.stringify(e.candidate))};
 const ai=(c,n)=>pc.remoteDescription?pc.addIceCandidate(c).catch(()=>{}):n<30&&setTimeout(()=>ai(c,n+1),500);
 base.child("ice_"+u).on("child_added",s=>ai(JSON.parse(s.val()),0));
@@ -590,7 +590,8 @@ if(init){pc.createOffer().then(o=>pc.setLocalDescription(o)).then(()=>base.child
 base.child("answer").on("value",s=>{if(s.val()&&!pc.currentRemoteDescription)pc.setRemoteDescription(JSON.parse(s.val()))})}
 else base.child("offer").on("value",s=>{if(s.val()&&!pc.currentRemoteDescription)pc.setRemoteDescription(JSON.parse(s.val())).then(()=>pc.createAnswer()).then(a=>pc.setLocalDescription(a)).then(()=>base.child("answer").set(JSON.stringify(pc.localDescription)))})}
 function drop(u){const p=pcs[u];if(!p)return;try{p.pc.close();["offer","answer","ice_"+u].forEach(x=>p.base.child(x).off())}catch(_){}delete pcs[u];const a=$("au_"+u);if(a)a.remove()}
-function stopMic(){if(!ls)return;clearInterval(gi);ls.getTracks().forEach(t=>t.stop());ls=null;Object.keys(pcs).forEach(u=>drop(u));if(vref)vref.off();if(cref)cref.child("voice/"+me).remove();$("mic").textContent="🎙 Join voice";$("mt").style.display="none"}
+function stopMic(){if(!ls)return;clearInterval(gi);ls.getTracks().forEach(t=>t.stop());ls=null;Object.keys(pcs).forEach(u=>drop(u));if(vref)vref.off();if(cref)cref.child("voice/"+me).remove();$("mic").textContent="🎙 Join voice";$("mt").style.display="none";$("vs").textContent=""}
+function vst(){const a=Object.values(pcs),ok=a.filter(p=>p.pc.connectionState==="connected").length,bad=a.some(p=>p.pc.connectionState==="failed");$("vs").textContent=!ls?"":bad?"⚠️ Voice failed (network)":a.length?(ok===a.length?"🟢 "+ok+" connected":"🔄 connecting…"):"🎙 on · waiting for friends to join voice"}
 function mute(){muted=!muted;$("mt").textContent=muted?"Unmute":"Mute"}
 async function lb(){$("lb_l").innerHTML='<div class="c">Loading…</div>';try{const v=(await db.ref("hist").once("value")).val()||{};
 const L=Object.entries(v).map(([k,o])=>{const a=Object.values(o);return{n:a[0].n||k,p:a.length,w:a.filter(x=>x.rank===1).length}}).sort((a,b)=>b.w-a.w||a.p-b.p);
@@ -624,7 +625,7 @@ mph();
 let adm=false,adq="",gi=0,muted=false,lw=-1,wb=0;
 const WLH=n=>JSON.parse(localStorage.wl||"[]").includes(n);
 function wl(n){let w=JSON.parse(localStorage.wl||"[]");w=w.includes(n)?w.filter(x=>x!==n):w.concat(n);localStorage.wl=JSON.stringify(w);srch()}
-function gate(){try{const ac=window._ac||(window._ac=new(window.AudioContext||window.webkitAudioContext)());ac.resume();const an=ac.createAnalyser();an.fftSize=512;ac.createMediaStreamSource(ls).connect(an);
+function gate(){return;try{const ac=window._ac||(window._ac=new(window.AudioContext||window.webkitAudioContext)());ac.resume();const an=ac.createAnalyser();an.fftSize=512;ac.createMediaStreamSource(ls).connect(an);
 const d=new Uint8Array(an.fftSize),t=ls.getAudioTracks()[0];let hold=0;gi=setInterval(()=>{an.getByteTimeDomainData(d);let m=0;d.forEach(v=>m=Math.max(m,Math.abs(v-128)));if(m>5)hold=Date.now()+500;t.enabled=!muted&&Date.now()<hold},80)}catch(_){}}
 async function hs(t){t="tahseen-auction|"+t;if(window.crypto&&crypto.subtle){const b=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(t));return[...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,"0")).join("")}let h=5381;for(const c of t)h=(h*33^c.charCodeAt(0))>>>0;return"d"+h}
 async function adminOpen(){if(!db)return note("Firebase not connected");if(adm){show("adm");return aload()}show("alog");const v=(await db.ref("admin/h").once("value")).val();$("al_t").textContent=v?"Enter your admin PIN":"First time: choose your admin PIN (4+ characters). Do this first, before anyone else!";$("al_b").textContent=v?"Unlock":"Set PIN"}
